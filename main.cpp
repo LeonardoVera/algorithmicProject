@@ -1,5 +1,8 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <conio.h>
+#include <windows.h>
 #include "gotoxy.h"
 
 using namespace std;
@@ -18,18 +21,24 @@ struct Fecha {
   Hora hora;
 };
 
-struct Cita {
+struct Paciente {
   string nombre;
+  string apellido;
+  string telefono;
+};
+
+struct Cita {
+  Paciente paciente;
   string descripcion;
   Fecha fecha;
 };
 
-// Declaración de funciones
+// Opciones de los menus
+vector<string> mainMenuOptions = {"Crear cita", "Ver citas", "Modificar cita", "Eliminar cita", "Salir"};
 
+// Declaración de funciones
 // Funciones para imprimir las opciones del menu principal y manejar las opciones
-void printOptions();
-void manageOpts(int &opt);
-void printMenu(int &opt);
+void menuTemplate(vector<string> menuOptions);
 
 // Funciones para la creacion, visualizacion, modificacion y eliminacion de citas
 void crearCita(){}
@@ -39,51 +48,87 @@ void eliminarCita(){}
 
 
 int main(int argc, char *argv[]) {
-  int opt;
-  do {
-    printMenu(opt);
-  } while(opt!=5);
+  ocultarCursor();
+  menuTemplate(mainMenuOptions);
   return 0;
 }
-
-// Funcion para imprimer el menu principal en pantalla
-void printMenu(int &opt) {
-  system("cls");
-  printOptions();
-  cin >> opt;
-  manageOpts(opt);
+void menuTemplate(vector<string> menuOptions) {
+    bool repeat = true;
+    int opt = 1; // Opción seleccionada
+    const int numOptions = menuOptions.size();
+    
+    do {
+        system("cls");
+        for (int i = 0; i < numOptions; ++i) {
+            if (i == opt - 1) {
+                color(2);
+                gotoxy(55, 5 + i);
+                cout << "=>";
+                color(2);
+                gotoxy(57, 5 + i);
+                cout << menuOptions[i] << endl;
+                color(7);
+            } else {
+                gotoxy(57, 5 + i);
+                cout << "   " << menuOptions[i] << endl;
+            }
+        }
+        
+        // Capturar la entrada del teclado
+        char input = _getch();
+        switch(input) {
+            case 72: // Flecha arriba
+                opt = (opt == 1) ? numOptions : opt - 1;
+                break;
+            case 80: // Flecha abajo
+                opt = (opt == numOptions) ? 1 : opt + 1;
+                break;
+            case 13: // Tecla Enter
+                switch(opt) {
+                    case 1:
+                        crearCita();
+                        break;
+                    case 2:
+                        verCitas();
+                        break;
+                    case 3:
+                        modificarCita();
+                        break;
+                    case 4:
+                        eliminarCita();
+                        break;
+                    case 5:
+                        cout << "Salir" << endl;
+                        repeat = false;
+                        break;
+                }
+                break;
+        }
+    } while (repeat);
 }
 
-// Funcion para imprimir las opciones del menu
-void printOptions() {
-  cout << "1. Crear cita" << endl;
-  cout << "2. Ver citas" << endl;
-  cout << "3. Modificar cita" << endl;
-  cout << "4. Eliminar cita" << endl;
-  cout << "5. Salir" << endl;
-  cout << "Seleccione una opcion: ";
-}
+// TODO: Implementar estuctura de datos para almacenar el nombre del paciente
+/*
+void crearCita() {
+    Cita cita;
+    system("cls");
 
-// Funcion para manejar las opciones del menu
-void manageOpts(int &opt) {
-  switch(opt) {
-    case 1:
-      crearCita();
-      break;
-    case 2:
-      verCitas();
-      break;
-    case 3:
-      modificarCita();
-      break;
-    case 4:
-      eliminarCita();
-      break;
-    case 5:
-      cout << "Salir" << endl;
-      break;
-    default:
-      cout << "Opcion no valida" << endl;
-      break;
-  }
+    cout << "Nombre: ";
+    cin.ignore();
+    getline(cin, cita.nombre);
+
+    cout << "Descripcion: ";
+    getline(cin, cita.descripcion);
+
+    cout << "Fecha (dd/mm/yyyy): ";
+    cin >> cita.fecha.dia >> cita.fecha.mes >> cita.fecha.anio;
+    cin.ignore();
+
+    cout << "Hora (hh:mm:ss): ";
+    cin >> cita.fecha.hora.hora >> cita.fecha.hora.minuto >> cita.fecha.hora.segundo;
+    cin.ignore();
+
+    cout << "Cita creada" << endl;
+    system("pause");
 }
+*/
