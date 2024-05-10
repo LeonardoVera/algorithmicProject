@@ -27,6 +27,7 @@ struct Paciente {
   string nombre;
   string apellido;
   string telefono;
+  int dni;
 };
 
 struct Cita {
@@ -37,30 +38,32 @@ struct Cita {
 };
 
 // Opciones de los menus
-vector<string> mainMenuOptions = {"Crear cita", "Ver citas", "Modificar cita", "Eliminar cita","Imprimir cita", "Salir"};
+vector<string> mainMenuOptions = {"Crear cita", "Buscar Cita", "Modificar cita", "Eliminar cita","Imprimir cita", "Salir"};
 
 vector<Cita> citas;
 
 // Declaración de funciones
 // Funciones para imprimir las opciones del menu principal y manejar las opciones
-void menuTemplate(vector<string> menuOptions);
+void mainMenu(vector<string> menuOptions);
 
 // Funciones para la creacion, visualizacion, modificacion y eliminacion de citas
 void crearCita();
 void verCitas();
 void modificarCita(){}
 void eliminarCita(){}
+void buscarCita();
+void mostrarCita(int id);
 void imprimirCita();
 string getFechaActual();
 
 
 int main() {
   ocultarCursor();
-  menuTemplate(mainMenuOptions);
+  mainMenu(mainMenuOptions);
   return 0;
 }
 
-void menuTemplate(vector<string> menuOptions) {
+void mainMenu(vector<string> menuOptions) {
     bool repeat = true;
     int opt = 1; // Opción seleccionada
     const int numOptions = menuOptions.size();
@@ -107,12 +110,13 @@ void menuTemplate(vector<string> menuOptions) {
                 opt = (opt == numOptions) ? 1 : opt + 1;
                 break;
             case 13: // Tecla Enter
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
                 switch(opt) {
                     case 1:
                         crearCita();
                         break;
                     case 2:
-                        verCitas();
+                        buscarCita();
                         break;
                     case 3:
                         modificarCita();
@@ -134,37 +138,93 @@ void menuTemplate(vector<string> menuOptions) {
 }
 
 // Definición de funciones
+
 void crearCita() {
     Cita cita;
     system("cls");
 
+    gotoxy(50, 2);
+    cout << "*****************************************************" << endl;
+    gotoxy(50, 3);
     cout << "Nombre del paciente: ";
-    cin.ignore();
     getline(cin, cita.paciente.nombre);
 
+    gotoxy(50, 4);
     cout << "Apellido del paciente: ";
     getline(cin, cita.paciente.apellido);
 
+    gotoxy(50, 5);
     cout << "Telefono del paciente: ";
     getline(cin, cita.paciente.telefono);
 
+    gotoxy(50, 6);
     cout << "Descripcion del suceso: ";
     getline(cin, cita.descripcion);
 
+    gotoxy(50, 7);
     cout << "Fecha a programar (dd/mm/yyyy): ";
     cin >> cita.fecha.dia >> cita.fecha.mes >> cita.fecha.anio;
-    cin.ignore();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
+    gotoxy(50, 8);
     cout << "Hora (hh:mm): ";
     cin >> cita.fecha.hora.hora >> cita.fecha.hora.minuto;
-    cin.ignore();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
+    gotoxy(50, 9);
     cout << "Asigne un ID a la cita: ";
     cin >> cita.id;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
     citas.push_back(cita);
-    cout << "Cita creada" << endl;
+    gotoxy(50, 10);
+    cout << "Cita creada exitosamente." << endl;
     system("pause");
+}
+
+void mostrarCita(int id){
+  system("cls");
+  for (int i = 0; i < citas.size(); ++i) {
+    if (citas[i].id == id) {
+      gotoxy(60, 3);
+      color(3);
+      cout << "TICKET DE CITA\n";
+      color(7);
+      gotoxy(40, 4);
+      cout << "---------------------------------------------------------------------"<< endl;
+      gotoxy(47, 5);
+      cout << "Centro de salud Colita de Rana\n";
+      gotoxy(47, 6);
+      cout << "RUC: 20131257750\n";
+      gotoxy(47, 7);
+      cout << "Av. San Borja Sur 123 Lima, Peru\n";
+      gotoxy(47, 8);
+      cout << "Telefono: 123456789\n";
+      gotoxy(40, 9);
+      cout << "---------------------------------------------------------------------"<< endl;
+      gotoxy(47, 10);
+      cout << "Hora programada: " << citas[i].fecha.hora.hora << ":" << citas[i].fecha.hora.minuto << endl;
+      gotoxy(47, 11);
+      cout << "Nombre: " << citas[i].paciente.nombre << " " << citas[i].paciente.apellido << endl;
+      gotoxy(47, 12);
+      cout << "Telefono: " << citas[i].paciente.telefono << endl;
+      gotoxy(47, 13);
+      cout << "Descripcion: " << citas[i].descripcion << endl;
+      gotoxy(47, 14);
+      cout << "Fecha programada: " << citas[i].fecha.dia << "/" << citas[i].fecha.mes << "/" << citas[i].fecha.anio << endl;
+      gotoxy(47, 15);
+    }
+  }
+  system("pause");
+}
+
+void buscarCita(){
+  system("cls");
+  int id;
+  cout << "Ingrese el ID de la cita a buscar: ";
+  cin >> id;
+  mostrarCita(id);
+  system("pause");
 }
 
 void verCitas() {
@@ -201,16 +261,36 @@ void imprimirCita(){
 
   for (int i = 0; i < citas.size(); ++i) {
     if (citas[i].id == id) {
-      archivo << "Cita " << i + 1 << endl;
-      archivo << "Nombre: " << citas[i].paciente.nombre << " " << citas[i].paciente.apellido << endl;
-      archivo << "Telefono: " << citas[i].paciente.telefono << endl;
-      archivo << "Descripcion: " << citas[i].descripcion << endl;
-      archivo << "Fecha programada: " << citas[i].fecha.dia << "/" << citas[i].fecha.mes << "/" << citas[i].fecha.anio << endl;
-      archivo << "Hora programada: " << citas[i].fecha.hora.hora << ":" << citas[i].fecha.hora.minuto << endl;
-      archivo << "Fecha de impresion: " << getFechaActual() << endl;
-      archivo << endl;
+      gotoxy(60, 3);
+      color(3);
+      archivo << "TICKET DE CITA\n";
+      color(7);
+      gotoxy(40, 4);
+      archivo << "---------------------------------------------------------------------"<< endl;
+      gotoxy(47, 5);
+      archivo << "Centro de salud Colita de Rana\n";
+      gotoxy(47, 6);
+      archivo<< "RUC: 20131257750\n";
+      gotoxy(47, 7);
+      archivo << "Av. San Borja Sur 123 Lima, Peru\n";
+      gotoxy(47, 8);
+      archivo<< "Telefono: 123456789\n";
+      gotoxy(40, 9);
+      archivo<< "---------------------------------------------------------------------"<< endl;
+      gotoxy(47, 10);
+      archivo<< "Hora programada: " << citas[i].fecha.hora.hora << ":" << citas[i].fecha.hora.minuto << endl;
+      gotoxy(47, 11);
+      archivo<< "Nombre: " << citas[i].paciente.nombre << " " << citas[i].paciente.apellido << endl;
+      gotoxy(47, 12);
+      archivo<< "Telefono: " << citas[i].paciente.telefono << endl;
+      gotoxy(47, 13);
+      archivo<< "Descripcion: " << citas[i].descripcion << endl;
+      gotoxy(47, 14);
+      archivo<< "Fecha programada: " << citas[i].fecha.dia << "/" << citas[i].fecha.mes << "/" << citas[i].fecha.anio << endl;
+      break;
     }
   }
   archivo.close();
   cout << "Cita impresa" << endl;
+  system("pause");
 }
