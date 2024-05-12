@@ -12,6 +12,6 @@
 
 int main() {
   ocultarCursor();
-  mainMenu(mainMenuOptions);
+  login();
   return 0;
 }

@@ -2,15 +2,20 @@
 #include "gotoxy.h"
 
 vector<Cita> citas;
+User currentUser;
 
 vector<string> mainMenuOptions = {"Crear cita", "Buscar Cita", "Modificar cita", "Eliminar cita","Imprimir cita", "Salir"};
 
+// Validacion de datos
+bool validateUser(User currentUser);
+
+void login();
 void crearCita();
 void buscarCita();
 void mostrarCita(int id);
 void imprimirCita();
 string getFechaActual();
-void mainMenu(vector<string> menuOptions);
+void mainMenu(vector<string> menuOptions, User currentUser);
 
 // TODO
 void modificarCita(){}
@@ -19,13 +24,61 @@ void eliminarCita(){}
 
 // Definición de funciones
 
-void mainMenu(vector<string> menuOptions) {
+bool validateUser(User currentUser) {
+  ifstream file("users.txt");
+  string line;
+
+  if(!file.is_open()) {
+    cout << "No se pudo abrir el archivo." << endl;
+    return false;
+  }
+
+  while(getline(file, line)) {
+    size_t pos = line.find(":");
+    string user = line.substr(0, pos);
+    string pass = line.substr(pos + 1);
+
+    if(user == currentUser.username && pass == currentUser.password) {
+      file.close();
+      return true;
+    }
+  }
+  return false;
+}
+
+void login() {
+control:
+  system("cls");
+  gotoxy(40, 5);
+  cout << "Username: ";
+  getline(cin, currentUser.username);
+  gotoxy(40, 6);
+  cout << "Password: ";
+  getline(cin, currentUser.password);
+
+  if(validateUser(currentUser)) {
+    mainMenu(mainMenuOptions, currentUser);
+  }else {
+    gotoxy(40, 7);
+    color(4);
+    cout << "Usuario o contrasenha incorrectos." << endl;
+    color(7);
+    system("pause");
+    goto control;
+  }
+}
+
+void mainMenu(vector<string> menuOptions, User currentUser) {
     bool repeat = true;
     int opt = 1; // Opción seleccionada
     const int numOptions = menuOptions.size();
     
     do {
         system("cls");
+        gotoxy(92, 1);
+        color(3);
+        cout << "User: " << currentUser.username << endl;
+        color(7);
         gotoxy(50, 2);
         cout << "*****************************************************" << endl;
         gotoxy(50, 3);
@@ -107,35 +160,44 @@ void crearCita() {
     getline(cin, cita.paciente.apellido);
 
     gotoxy(50, 5);
+    cout << "Ingrese edad del paciente: ";
+    cin >> cita.paciente.edad;
+
+    gotoxy(50, 6);
     cout << "DNI del paciente: ";
     cin >> cita.paciente.dni;
     cin.ignore();
 
-    gotoxy(50, 6);
+    gotoxy(50, 7);
     cout << "Telefono del paciente: ";
     getline(cin, cita.paciente.telefono);
 
-    gotoxy(50, 7);
+    gotoxy(50, 8);
+    cout << "El paciente cuenta con SIS? (1: Si, 0: No): ";
+    cin >> cita.paciente.SIS;
+    cin.ignore();
+
+    gotoxy(50, 9);
     cout << "Motivo de consulta: ";
     getline(cin, cita.descripcion);
 
-    gotoxy(50, 8);
+    gotoxy(50, 10);
     cout << "Fecha a programar (dd/mm/yyyy): ";
     cin >> cita.fecha.dia >> cita.fecha.mes >> cita.fecha.anio;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
-    gotoxy(50, 9);
+    gotoxy(50, 11);
     cout << "Hora (hh:mm): ";
     cin >> cita.fecha.hora.hora >> cita.fecha.hora.minuto;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
-    gotoxy(50, 10);
+    gotoxy(50, 12);
     cout << "Asigne un ID a la cita: ";
     cin >> cita.id;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
     citas.push_back(cita);
-    gotoxy(50, 11);
+    gotoxy(50, 13);
     cout << "Cita creada exitosamente." << endl;
     system("pause");
 }
@@ -165,12 +227,26 @@ void mostrarCita(int id){
       gotoxy(47, 11);
       cout << "Nombre del paciente: " << citas[i].paciente.nombre << " " << citas[i].paciente.apellido << endl;
       gotoxy(47, 12);
-      cout << "Telefono del paciente: " << citas[i].paciente.telefono << endl;
+      cout << "Edad del paciente: " << citas[i].paciente.edad << endl;
       gotoxy(47, 13);
-      cout << "Descripcion de la cita: " << citas[i].descripcion << endl;
+      cout << "Telefono del paciente: " << citas[i].paciente.telefono << endl;
       gotoxy(47, 14);
-      cout << "Fecha programada: " << citas[i].fecha.dia << "/" << citas[i].fecha.mes << "/" << citas[i].fecha.anio << endl;
+      cout << "Descripcion de la cita: " << citas[i].descripcion << endl;
       gotoxy(47, 15);
+      cout << "Fecha programada: " << citas[i].fecha.dia << "/" << citas[i].fecha.mes << "/" << citas[i].fecha.anio << endl;
+      gotoxy(47, 16);
+
+      gotoxy(85, 17);
+      cout << "SIS Activo:";
+      if (citas[i].paciente.SIS) {
+        color(2);
+        cout << "Si\n";
+        color(7);
+      } else {
+        color(4);
+        cout << "No\n";
+        color(7);
+      }
     }
   }
   system("pause");

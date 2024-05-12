@@ -4,6 +4,11 @@
 #include <set>
 using namespace std;
 
+struct User {
+  string username;
+  string password;
+};
+
 // Estructuras anidadas necesarias para la creacion de una nueva cita
 struct Hora {
   int hora;
@@ -17,6 +22,7 @@ struct Fecha {
   Hora hora;
 };
 
+// TODO: Agregar enfermedades al historial clinico
 /*
 struct historialClinico {
   set<string> enfermedades;
@@ -28,11 +34,12 @@ struct historialClinico {
 struct Paciente {
   string nombre;
   string apellido;
+  int edad;
   string telefono;
   int dni;
   // TODO: Agregar historial clinico
   int numHistoriaClinica;
-  bool SIS; // TODO
+  bool SIS;
 
 };
 
