@@ -9,7 +9,7 @@
 #include <set>
 #include "gotoxy.h"
 #include "utils.h"
-//coment
+
 int main() {
   ocultarCursor();
   inicioSesion();

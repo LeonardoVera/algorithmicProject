@@ -4,6 +4,14 @@
 vector<Cita> citas;
 User currentUser;
 
+// Caracteres especiales
+const char wall = (char)179; // │
+const char f = (char)196; // ─
+const char topLeftCorner = (char)218; // ┌
+const char topRightCorner = (char)191; // ┐
+const char bottomLeftCorner = (char)192; // └
+const char bottomRightCorner = (char)217; // ┘
+
 vector<string> mainMenuOptions = {"Crear cita", "Buscar Cita", "Modificar cita", "Eliminar cita","Imprimir cita", "Salir"};
 
 // Validacion de datos
@@ -52,25 +60,25 @@ void inicioSesion(){
     do {
         system("cls");
         gotoxy(50,2);
-        cout << "*****************************************************" << endl;
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
         gotoxy(50,3);
-        cout << "*                                                   *" << endl; 
+        cout << wall << "                                                   " << wall << endl; 
         gotoxy(50,4);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
         gotoxy(50,5);
-        cout << "*                                                   *" << endl; 
+        cout << wall << "                                                   " << wall << endl; 
         gotoxy(50,6);
-        cout << "*  1. INICIO DE SESION                              *" << endl; 
+        cout << wall << "  1. INICIO DE SESION                              " << wall << endl; 
         gotoxy(50,7);
-        cout << "*  2. CREACION DE CUENTA                            *" << endl; 
+        cout << wall << "  2. CREACION DE CUENTA                            " << wall << endl; 
         gotoxy(50,8);
-        cout << "*                                                   *" << endl;
+        cout << wall << "  3. SALIR                                         " << wall << endl;
         gotoxy(50,10);
-        cout << "*****************************************************" << endl;
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
         gotoxy(79,9);
-        cout<<"                       *" << endl; 
+        cout<<"                       " << wall << endl; 
         gotoxy(50,9); 
-        cout << "*  Seleccione una opcion:   ";cin >> opcion;
+        cout << wall << "  Seleccione una opcion:   ";cin >> opcion;
         
         switch(opcion) {
             case 1:
@@ -78,6 +86,12 @@ void inicioSesion(){
                 break;
             case 2:
                 crearCuenta();
+                break;
+            case 3:
+                system("cls");
+                gotoxy(50, 10);
+                color(3);
+                cout << "Saliendo...";
                 break;
             default:
                 cout << "Opción no válida. Inténtalo de nuevo." << endl;
