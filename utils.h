@@ -36,7 +36,7 @@ void eliminarCita(){}
 // Definición de funciones
 
 bool validateUser(User currentUser) {
-  ifstream file("users.txt");
+  ifstream file("./data/users.txt");
   string line;
 
   if(!file.is_open()) {
@@ -104,7 +104,7 @@ void inicioSesion(){
 void crearCuenta() {
     string nombreUsuario;
     string contrasena;
-    string nombreArchivo = "users.txt";
+    string nombreArchivo = "./data/users.txt";
 
     system("cls");
     gotoxy(40, 5);
@@ -255,7 +255,7 @@ void crearCita() {
     getline(cin, cita.paciente.telefono);
 
     gotoxy(50, 8);
-    cout << "El paciente cuenta con SIS? (1: Si, 0: No): ";
+    cout << "El paciente cuenta con SIS activo? (1/0) ";
     cin >> cita.paciente.SIS;
     cin.ignore();
 
@@ -374,7 +374,7 @@ string getFechaActual() {
 }
 
 void imprimirCita(){
-  ofstream archivo("citas.txt", ios::app);
+  ofstream archivo("./data/citas.txt", ios::app);
   system("cls");
   int id;
   cout << "Ingrese el ID de la cita a imprimir: ";

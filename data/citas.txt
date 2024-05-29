@@ -1,0 +1,12 @@
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 12:32
+Nombre: Cristian Leonardo Vera Rodriguez
+Telefono: 1653121
+Descripcion: cefalea
+Fecha programada: 12/12/2020
