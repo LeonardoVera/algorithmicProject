@@ -127,9 +127,9 @@ void crearCuenta() {
 
 void login() {
 control:
+  cin.ignore();
   system("cls");
   gotoxy(40, 5);
-  cin.ignore();
   cout << "Username: ";
   getline(cin, currentUser.username);
   gotoxy(40, 6);
@@ -142,6 +142,7 @@ control:
     gotoxy(40, 7);
     color(4);
     cout << "Usuario o contrasenha incorrectos." << endl;
+    cin.ignore();
     color(7);
     system("pause");
     goto control;
