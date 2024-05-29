@@ -9,6 +9,8 @@ vector<string> mainMenuOptions = {"Crear cita", "Buscar Cita", "Modificar cita",
 // Validacion de datos
 bool validateUser(User currentUser);
 
+void inicioSesion();
+void crearCuenta();
 void login();
 void crearCita();
 void buscarCita();
@@ -45,11 +47,75 @@ bool validateUser(User currentUser) {
   }
   return false;
 }
+void inicioSesion(){
+    int opcion;
+    do {
+        system("cls");
+        gotoxy(50,2);
+        cout << "*****************************************************" << endl;
+        gotoxy(50,3);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50,4);
+        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        gotoxy(50,5);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50,6);
+        cout << "*  1. INICIO DE SESION                              *" << endl; 
+        gotoxy(50,7);
+        cout << "*  2. CREACION DE CUENTA                            *" << endl; 
+        gotoxy(50,8);
+        cout << "*                                                   *" << endl;
+        gotoxy(50,10);
+        cout << "*****************************************************" << endl;
+        gotoxy(79,9);
+        cout<<"                       *" << endl; 
+        gotoxy(50,9); 
+        cout << "*  Seleccione una opcion:   ";cin >> opcion;
+        
+        switch(opcion) {
+            case 1:
+                login();
+                break;
+            case 2:
+                crearCuenta();
+                break;
+            default:
+                cout << "Opción no válida. Inténtalo de nuevo." << endl;
+        }
+        cout << endl;
+    } while(opcion != 3);
+}
+
+void crearCuenta() {
+    string nombreUsuario;
+    string contrasena;
+    string nombreArchivo = "users.txt";
+
+    system("cls");
+    gotoxy(40, 5);
+    cout << "Ingrese un nombre de usuario: ";
+    cin.ignore();
+    getline(cin, nombreUsuario);
+    gotoxy(40, 7);
+    cout << "Ingrese una contrasena: ";
+    getline(cin, contrasena);
+    
+    ofstream archivo(nombreArchivo, ios::app);
+    if (archivo.is_open()) {
+        archivo << nombreUsuario << ":" << contrasena << endl;
+        archivo.close();
+        cout << "Datos guardados correctamente" << endl;
+    } else {
+        cerr << "No se pudo guardar" << endl;
+    }
+    system("pause");
+}
 
 void login() {
 control:
   system("cls");
   gotoxy(40, 5);
+  cin.ignore();
   cout << "Username: ";
   getline(cin, currentUser.username);
   gotoxy(40, 6);

@@ -12,6 +12,6 @@
 //coment
 int main() {
   ocultarCursor();
-  login();
+  inicioSesion();
   return 0;
 }
