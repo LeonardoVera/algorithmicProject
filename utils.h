@@ -11,6 +11,7 @@ const char topLeftCorner = (char)218; // ┌
 const char topRightCorner = (char)191; // ┐
 const char bottomLeftCorner = (char)192; // └
 const char bottomRightCorner = (char)217; // ┘
+const char arrow = (char)175; // »
 
 vector<string> mainMenuOptions = {"Crear cita", "Buscar Cita", "Modificar cita", "Eliminar cita","Imprimir cita", "Salir"};
 
@@ -179,7 +180,7 @@ void mainMenu(vector<string> menuOptions, User currentUser) {
             if (i == opt - 1) {
                 color(2);
                 gotoxy(55, 10 + i);
-                cout << "=>";
+                cout << arrow;
                 color(2);
                 gotoxy(57, 10 + i);
                 cout << menuOptions[i] << endl;
