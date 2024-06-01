@@ -46,12 +46,14 @@ bool validateUser(User currentUser) {
 
   while(getline(file, line)) {
     size_t pos = line.find(":");
-    string user = line.substr(0, pos);
-    string pass = line.substr(pos + 1);
+    if(pos != string::npos) {
+      string user = line.substr(0, pos);
+      string pass = line.substr(pos + 1);
 
-    if(user == currentUser.username && pass == currentUser.password) {
-      file.close();
-      return true;
+      if(user == currentUser.username && pass == currentUser.password) {
+        file.close();
+        return true;
+      }
     }
   }
   return false;
