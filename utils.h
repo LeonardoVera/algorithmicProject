@@ -24,13 +24,14 @@ void login();
 void crearCita();
 void buscarCita();
 void mostrarCita(int id);
+void eliminarCita();
+void eliminar(int id);
 void imprimirCita();
 string getFechaActual();
 void mainMenu(vector<string> menuOptions, User currentUser);
 
 // TODO
 void modificarCita(){}
-void eliminarCita(){}
 
 
 // Definición de funciones
@@ -288,8 +289,10 @@ void crearCita() {
 
 void mostrarCita(int id){
   system("cls");
+  bool encontrarID = false;
   for (int i = 0; i < citas.size(); ++i) {
     if (citas[i].id == id) {
+      encontrarID = true;
       gotoxy(60, 3);
       color(3);
       cout << "TICKET DE CITA\n";
@@ -333,6 +336,10 @@ void mostrarCita(int id){
       }
     }
   }
+  if (!encontrarID) {
+        gotoxy(45, 15);
+        cout << "Cita con ID " << id << " no encontrada.\n";
+    }
   system("pause");
 }
 
@@ -348,6 +355,30 @@ void buscarCita(){
   cin >> id;
   mostrarCita(id);
   system("pause");
+}
+
+void eliminarCita() {
+    system("cls");
+    int id;
+    gotoxy(45, 15);
+    cout << "Ingrese el ID de la cita a eliminar: ";
+    gotoxy(whereX(), whereY());
+    cout << "=> ";
+    cin >> id;
+    eliminar(id);
+    system("pause");
+}
+
+void eliminar(int id) {
+    for (auto it = citas.begin(); it != citas.end(); ++it) {
+        if (it->id == id) {
+            citas.erase(it);  
+            cout << "Cita con ID " << id << " eliminada.\n";
+            return; 
+        }
+    }
+    cout << "Cita con ID " << id << " no encontrada.\n";
+    system("pause");
 }
 
 void verCitas() {
