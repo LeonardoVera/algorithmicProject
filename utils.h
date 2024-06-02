@@ -24,18 +24,106 @@ void login();
 void crearCita();
 void buscarCita();
 void mostrarCita(int id);
+
 void eliminarCita();
 void eliminar(int id);
+
 void imprimirCita();
 string getFechaActual();
 void mainMenu(vector<string> menuOptions, User currentUser);
 
 // TODO
-void modificarCita(){}
+void modificarCita();
 
+void modificarCita() {
+  int id;
+  system("cls");
+  cout << "Ingrese el ID de la cita a modificar: ";
+  cin >> id;
+
+  for (int i = 0; i < citas.size(); ++i) {
+    if (citas[i].id == id) {
+      cout << "Cita encontrada" << endl;
+      cout << "Datos actuales de la cita:" << endl;
+      mostrarCita(id);
+
+      bool repeat = true;
+
+      while(repeat) {
+        system("cls");
+        cout << "Seleccione el dato a modificar:" << endl;
+        cout << "0. Mostrar cita a modificar" << endl;
+        cout << "1. Nombre del paciente" << endl;
+        cout << "2. Apellido del paciente" << endl;
+        cout << "3. Edad del paciente" << endl;
+        cout << "4. DNI del paciente" << endl;
+        cout << "5. Telefono del paciente" << endl;
+        cout << "6. SIS del paciente" << endl;
+        cout << "7. Motivo de consulta" << endl;
+        cout << "8. Fecha de la cita" << endl;
+        cout << "9. Hora de la cita" << endl;
+        cout << "10. Salir" << endl;
+        cout << "=> ";
+        int input;
+        cin >> input;
+
+        switch(input) {
+          case 0:
+            mostrarCita(id);
+            break;
+          case 1:
+            cout << "Ingrese el nuevo nombre del paciente: ";
+            cin.ignore();
+            getline(cin, citas[i].paciente.nombre);
+            break;
+          case 2:
+            cout << "Ingrese el nuevo apellido del paciente: ";
+            getline(cin, citas[i].paciente.apellido);
+            break;
+          case 3:
+            cout << "Ingrese la nueva edad del paciente: ";
+            cin >> citas[i].paciente.edad;
+            break;
+          case 4:
+            cout << "Ingrese el nuevo DNI del paciente: ";
+            cin >> citas[i].paciente.dni;
+            break;
+          case 5:
+            cout << "Ingrese el nuevo telefono del paciente: ";
+            cin.ignore();
+            getline(cin, citas[i].paciente.telefono);
+            break;
+          case 6:
+            cout << "El paciente cuenta con SIS activo? (1/0) ";
+            cin >> citas[i].paciente.SIS;
+            break;
+          case 7:
+            cout << "Ingrese el nuevo motivo de consulta: ";
+            cin.ignore();
+            getline(cin, citas[i].descripcion);
+            break;
+          case 8:
+            cout << "Ingrese la nueva fecha a programar (dd/mm/yyyy): ";
+            cin >> citas[i].fecha.dia >> citas[i].fecha.mes >> citas[i].fecha.anio;
+            break;
+          case 9:
+            cout << "Ingrese la nueva hora (hh:mm): ";
+            cin >> citas[i].fecha.hora.hora >> citas[i].fecha.hora.minuto;
+            break;
+          case 10:
+            repeat = false;
+            break;
+          default:
+            cout << "Opción no válida. Inténtalo de nuevo." << endl;
+        }
+      }
+      return;
+    }
+  }
+  cout << "Cita con ID " << id << " no encontrada." << endl;
+}
 
 // Definición de funciones
-
 bool validateUser(User currentUser) {
   ifstream file("./data/users.txt");
   string line;
@@ -276,6 +364,8 @@ void crearCita() {
     cin >> cita.fecha.hora.hora >> cita.fecha.hora.minuto;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
+
+    //TODO: Comprobar que el ID no se repita
     gotoxy(50, 12);
     cout << "Asigne un ID a la cita: ";
     cin >> cita.id;
