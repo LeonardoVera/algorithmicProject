@@ -13,7 +13,11 @@ const char bottomLeftCorner = (char)192; // └
 const char bottomRightCorner = (char)217; // ┘
 const char arrow = (char)175; // »
 
+//Vectores usados
 vector<string> mainMenuOptions = {"Crear cita", "Buscar Cita", "Modificar cita", "Eliminar cita","Imprimir cita", "Salir"};
+vector<string> medicos = {"Jesus Andres Lujan Carrion", "Luis Bartolo Teran", "Ana Lisa Melano", "Rosario del Cura Sacristan","Aquiles Castro Paredes", "Salir"};
+vector<string> horarios = {"06:30", "7:30","8:30", "9:30", "10:30", "Salir"};
+vector<string> fecha = {"07/06/2024", "14/06/2024","21/06/2024", "28/06/2024", "05/07/2024", "Salir" };
 
 // Validacion de datos
 bool validateUser(User currentUser);
@@ -32,7 +36,11 @@ void eliminar(int id);
 void imprimirCita();
 string getFechaActual();
 void mainMenu(vector<string> menuOptions, User currentUser);
+void eleccionMedicos(vector<string> medicos);
+void eleccionFecha(vector<string> fecha);
+void eleccionHorarios(vector<string> horarios);
 
+Cita cita;
 
 // Definición de funciones
 void modificarCita() {
@@ -60,9 +68,8 @@ void modificarCita() {
         cout << "5. Telefono del paciente" << endl;
         cout << "6. SIS del paciente" << endl;
         cout << "7. Motivo de consulta" << endl;
-        cout << "8. Fecha de la cita" << endl;
-        cout << "9. Hora de la cita" << endl;
-        cout << "10. Salir" << endl;
+        cout << "8. Horario" << endl;
+        cout << "9. Salir" << endl;
         cout << "=> ";
         int input;
         cin >> input;
@@ -103,14 +110,9 @@ void modificarCita() {
             getline(cin, citas[i].descripcion);
             break;
           case 8:
-            cout << "Ingrese la nueva fecha a programar (dd/mm/yyyy): ";
-            cin >> citas[i].fecha.dia >> citas[i].fecha.mes >> citas[i].fecha.anio;
+            cout << "Elija sus horarios";
             break;
           case 9:
-            cout << "Ingrese la nueva hora (hh:mm): ";
-            cin >> citas[i].fecha.hora.hora >> citas[i].fecha.hora.minuto;
-            break;
-          case 10:
             repeat = false;
             break;
           default:
@@ -318,9 +320,7 @@ void mainMenu(vector<string> menuOptions, User currentUser) {
     } while (repeat);
 }
 void crearCita() {
-    Cita cita;
     system("cls");
-
     gotoxy(50, 2);
     cout << "*****************************************************" << endl;
     gotoxy(50, 3);
@@ -354,26 +354,16 @@ void crearCita() {
     getline(cin, cita.descripcion);
 
     gotoxy(50, 10);
-    cout << "Fecha a programar (dd/mm/yyyy): ";
-    cin >> cita.fecha.dia >> cita.fecha.mes >> cita.fecha.anio;
-    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
-
-    gotoxy(50, 11);
-    cout << "Hora (hh:mm): ";
-    cin >> cita.fecha.hora.hora >> cita.fecha.hora.minuto;
-    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
-
-
-    //TODO: Comprobar que el ID no se repita
-    gotoxy(50, 12);
     cout << "Asigne un ID a la cita: ";
     cin >> cita.id;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
-    citas.push_back(cita);
-    gotoxy(50, 13);
-    cout << "Cita creada exitosamente." << endl;
+    gotoxy(50,13);
+    cout << "Seleccione sus medico y horarios..." << endl;
     system("pause");
+
+    system("cls");
+    eleccionMedicos(medicos);
 }
 
 void mostrarCita(int id){
@@ -399,20 +389,22 @@ void mostrarCita(int id){
       gotoxy(40, 9);
       cout << "---------------------------------------------------------------------"<< endl;
       gotoxy(47, 10);
-      cout << "Hora programada: " << citas[i].fecha.hora.hora << ":" << citas[i].fecha.hora.minuto << endl;
+      cout << "Hora programada: " << citas[i].horariosMedicos.horarios << endl;
       gotoxy(47, 11);
       cout << "Nombre del paciente: " << citas[i].paciente.nombre << " " << citas[i].paciente.apellido << endl;
       gotoxy(47, 12);
       cout << "Edad del paciente: " << citas[i].paciente.edad << endl;
       gotoxy(47, 13);
-      cout << "Telefono del paciente: " << citas[i].paciente.telefono << endl;
+      cout << "El medico asignado es: " << citas[i].horariosMedicos.medico<< endl;
       gotoxy(47, 14);
-      cout << "Descripcion de la cita: " << citas[i].descripcion << endl;
+      cout << "Telefono del paciente: " << citas[i].paciente.telefono << endl;
       gotoxy(47, 15);
-      cout << "Fecha programada: " << citas[i].fecha.dia << "/" << citas[i].fecha.mes << "/" << citas[i].fecha.anio << endl;
+      cout << "Descripcion de la cita: " << citas[i].descripcion << endl;
       gotoxy(47, 16);
+      cout << "Fecha programada: " << citas[i].horariosMedicos.fecha<< endl;
+      gotoxy(47, 17);
 
-      gotoxy(85, 17);
+      gotoxy(85, 18);
       cout << "SIS Activo:";
       if (citas[i].paciente.SIS) {
         color(2);
@@ -477,8 +469,8 @@ void verCitas() {
         cout << "Nombre: " << citas[i].paciente.nombre << " " << citas[i].paciente.apellido << endl;
         cout << "Telefono: " << citas[i].paciente.telefono << endl;
         cout << "Descripcion: " << citas[i].descripcion << endl;
-        cout << "Fecha Programada: " << citas[i].fecha.dia << "/" << citas[i].fecha.mes << "/" << citas[i].fecha.anio << endl;
-        cout << "Hora Programada: " << citas[i].fecha.hora.hora << ":" << citas[i].fecha.hora.minuto << endl;
+        cout << "Fecha Programada: " << citas[i].horariosMedicos.fecha << endl;
+        cout << "Hora Programada: " << citas[i].horariosMedicos.horarios << endl;
         cout << "ID: " << citas[i].id << endl;
         cout << endl;
     }
@@ -521,19 +513,192 @@ void imprimirCita(){
       gotoxy(40, 9);
       archivo<< "---------------------------------------------------------------------"<< endl;
       gotoxy(47, 10);
-      archivo<< "Hora programada: " << citas[i].fecha.hora.hora << ":" << citas[i].fecha.hora.minuto << endl;
+      archivo<< "Hora programada: " << citas[i].horariosMedicos.horarios<< endl;
       gotoxy(47, 11);
       archivo<< "Nombre: " << citas[i].paciente.nombre << " " << citas[i].paciente.apellido << endl;
       gotoxy(47, 12);
       archivo<< "Telefono: " << citas[i].paciente.telefono << endl;
       gotoxy(47, 13);
-      archivo<< "Descripcion: " << citas[i].descripcion << endl;
+      archivo<< "Medico programado: " << citas[i].descripcion << endl;
       gotoxy(47, 14);
-      archivo<< "Fecha programada: " << citas[i].fecha.dia << "/" << citas[i].fecha.mes << "/" << citas[i].fecha.anio << endl;
+      archivo<< "Fecha programada: " << citas[i].horariosMedicos.fecha << endl;
+      gotoxy(47, 15);
+      archivo<< "Descripcion: " << citas[i].descripcion << endl;
       break;
     }
   }
   archivo.close();
   cout << "Cita impresa" << endl;
   system("pause");
+}
+
+
+void eleccionMedicos (vector<string> medicos) {
+    bool repeat = true;
+    int opt = 1; // Opción seleccionada
+    const int numOptions = medicos.size();
+    HorariosMedicos horariosMedicos;
+    do {
+        system("cls");
+        gotoxy(50, 2);
+        cout << "*****************************************************" << endl;
+        gotoxy(50, 3);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50, 4);
+        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        gotoxy(50, 5);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50, 6);
+        cout << "*              Seleccione el doctor                 *" << endl; 
+        gotoxy(50, 7);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50, 8);
+        cout << "*****************************************************" << endl;
+
+        for (int i = 0; i < numOptions; ++i) {
+            if (i == opt - 1) {
+                color(2);
+                gotoxy(55, 10 + i);
+                cout << arrow;
+                color(2);
+                gotoxy(57, 10 + i);
+                cout << medicos[i] << endl;
+                color(7);
+            } else {
+                gotoxy(57, 10 + i);
+                cout << "   " << medicos[i] << endl;
+            }
+        }
+        
+        // Capturar la entrada del teclado
+        char input = _getch();
+        switch(input) {
+            case 72: // Flecha arriba
+                opt = (opt == 1) ? numOptions : opt - 1;
+                break;
+            case 80: // Flecha abajo
+                opt = (opt == numOptions) ? 1 : opt + 1;
+                break;
+            case 13: // Tecla Enter
+                cita.horariosMedicos.medico = medicos[opt - 1];
+                eleccionFecha(fecha);
+                repeat = false;
+                break;
+        }
+    } while (repeat);
+}
+
+void eleccionFecha (vector<string> fecha) {
+    bool repeat = true;
+    int opt = 1; // Opción seleccionada
+    const int numOptions = fecha.size();
+    
+    do {
+        system("cls");
+        gotoxy(50, 2);
+        cout << "*****************************************************" << endl;
+        gotoxy(50, 3);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50, 4);
+        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        gotoxy(50, 5);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50, 6);
+        cout << "*               Seleccione la fecha                 *" << endl; 
+        gotoxy(50, 7);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50, 8);
+        cout << "*****************************************************" << endl;
+
+        for (int i = 0; i < numOptions; ++i) {
+            if (i == opt - 1) {
+                color(2);
+                gotoxy(55, 10 + i);
+                cout << arrow;
+                color(2);
+                gotoxy(57, 10 + i);
+                cout << fecha[i] << endl;
+                color(7);
+            } else {
+                gotoxy(57, 10 + i);
+                cout << "   " << fecha[i] << endl;
+            }
+        }
+        
+        // Capturar la entrada del teclado
+        char input = _getch();
+        switch(input) {
+            case 72: // Flecha arriba
+                opt = (opt == 1) ? numOptions : opt - 1;
+                break;
+            case 80: // Flecha abajo
+                opt = (opt == numOptions) ? 1 : opt + 1;
+                break;
+            case 13: // Tecla Enter
+                cita.horariosMedicos.fecha = fecha[opt - 1];
+                eleccionHorarios(horarios);
+                repeat = false;
+                break;
+        }
+    } while (repeat);
+}
+
+void eleccionHorarios (vector<string> horarios) {
+    bool repeat = true;
+    int opt = 1; // Opción seleccionada
+    const int numOptions = horarios.size();
+    
+    do {
+        system("cls");
+        gotoxy(50, 2);
+        cout << "*****************************************************" << endl;
+        gotoxy(50, 3);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50, 4);
+        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        gotoxy(50, 5);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50, 6);
+        cout << "*               Seleccione su horario               *" << endl; 
+        gotoxy(50, 7);
+        cout << "*                                                   *" << endl; 
+        gotoxy(50, 8);
+        cout << "*****************************************************" << endl;
+
+        for (int i = 0; i < numOptions; ++i) {
+            if (i == opt - 1) {
+                color(2);
+                gotoxy(55, 10 + i);
+                cout << arrow;
+                color(2);
+                gotoxy(57, 10 + i);
+                cout << horarios[i] << endl;
+                color(7);
+            } else {
+                gotoxy(57, 10 + i);
+                cout << "   " << horarios[i] << endl;
+            }
+        }
+        
+        // Capturar la entrada del teclado
+        char input = _getch();
+        switch(input) {
+            case 72: // Flecha arriba
+                opt = (opt == 1) ? numOptions : opt - 1;
+                break;
+            case 80: // Flecha abajo
+                opt = (opt == numOptions) ? 1 : opt + 1;
+                break;
+            case 13: // Tecla Enter
+                cita.horariosMedicos.horarios = horarios[opt - 1];
+                repeat = false;
+                break;
+        }
+    } while (repeat);
+  
+  system("cls");
+  citas.push_back(cita);
+    gotoxy(50, 10);
+    cout << "Cita creada exitosamente." << endl;
+    system("pause");
 }
