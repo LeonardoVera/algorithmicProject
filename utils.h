@@ -14,7 +14,7 @@ const char bottomRightCorner = (char)217; // ┘
 const char arrow = (char)175; // »
 
 //Vectores usados
-vector<string> mainMenuOptions = {"Crear cita", "Buscar Cita", "Modificar cita", "Eliminar cita","Imprimir cita", "Salir"};
+vector<string> mainMenuOptions = { "Crear cita", "Buscar Cita", "Modificar cita", "Eliminar cita","Imprimir cita","Informacion del paciente", "Salir" };
 vector<string> medicos = {"Jesus Andres Lujan Carrion", "Luis Bartolo Teran", "David Aldana Chavez", "Kevin Rhamses Bohorques","Marco Renato Castilla Huanca", "Salir"};
 vector<string> horarios = {"06:30", "7:30","8:30", "9:30", "10:30", "Salir"};
 vector<string> fecha = {"07/06/2024", "14/06/2024","21/06/2024", "28/06/2024", "05/07/2024", "Salir" };
@@ -39,12 +39,27 @@ void eliminar(int id);
 
 void imprimirCita();
 string getFechaActual();
-void mainMenu(vector<string> menuOptions, User currentUser);
+void mainMenu(vector<string> menuOptions,Paciente paciente, User currentUser);
 void eleccionMedicos(vector<string> medicos);
 void eleccionFecha(vector<string> fecha);
 void eleccionHorarios(vector<string> horarios);
 
 Cita cita;
+
+int generarID(int min, int max) {
+    // Semilla basada en el tiempo actual
+    int seed = chrono::system_clock::now().time_since_epoch().count();
+
+    // Motor de generación de números aleatorios
+    default_random_engine generator(seed);
+
+    // Distribución uniforme de números enteros entre min y max
+    uniform_int_distribution<unsigned int> distribution(min, max);
+
+    // Generar y devolver el ID
+    return distribution(generator);
+}
+
 
 // Definición de funciones
 void modificarCita() {
@@ -224,6 +239,175 @@ void crearCuenta() {
     system("pause");
 }
 
+void guardarPaciente(const string& filename, const Paciente& paciente) {
+    ofstream outfile;
+    outfile.open(filename, ios_base::app); // Abrir el archivo en modo de añadir
+    if (outfile.is_open()) {
+        outfile << endl << paciente.id << "," << paciente.nombre << "," << paciente.apellido << "," << paciente.edad << "," << paciente.telefono << "," << paciente.dni;
+        outfile.close();
+    }
+    else {
+        cerr << "No se pudo abrir el archivo para escribir." << endl;
+    }
+}
+
+std::vector<Paciente> cargarPaciente(const std::string filename) {
+    std::vector<Paciente> pacientes;
+    std::ifstream infile(filename);
+    if (infile.is_open()) {
+        std::string line;
+        while (std::getline(infile, line)) {
+            Paciente paciente;
+            std::stringstream ss(line);
+            std::string token;
+
+            std::getline(ss, token, ',');
+            paciente.id = stoul(token);
+
+            std::getline(ss, token, ',');
+            paciente.nombre = token;
+
+            std::getline(ss, token, ',');
+            paciente.apellido = token;
+
+            std::getline(ss, token, ',');
+            paciente.edad = token;
+
+            std::getline(ss, token, ',');
+            paciente.telefono = token;
+
+            std::getline(ss, token, ',');
+            paciente.dni = token;
+
+            pacientes.push_back(paciente);
+        }
+        infile.close();
+    }
+    else {
+        std::cerr << "No se pudo abrir el archivo para leer." << std::endl;
+    }
+    return pacientes;
+}
+
+Paciente buscarPorID(const std::vector<Paciente>& pacientes, unsigned int id) {
+    for (const Paciente paciente : pacientes) {
+        if (paciente.id == id) {
+            return paciente;
+        }
+    }
+    return { 0, "", "", 0 }; // Devuelve una persona vacía si no se encuentra
+}
+
+
+void crearPaciente() {
+    Paciente paciente;
+    paciente.id = generarID(1000, 9999);
+    cout << "Ingrese el nombre: ";
+    cin >> paciente.nombre;
+    cout << "Ingrese el apellido: ";
+    cin >> paciente.apellido;
+    cout << "Ingrese la edad: ";
+    cin >> paciente.edad;
+    cout << "Ingrese el telefono: ";
+    cin >> paciente.telefono;
+    cout << "Ingrese el dni: ";
+    cin >> paciente.dni;
+
+    guardarPaciente("./data/pacientes.txt", paciente);
+    cout << "Paciente creado con ID: " << paciente.id << endl;
+}
+
+void listarPaciente(const std::vector<Paciente>& pacientes) {
+    if (pacientes.empty()) {
+        std::cout << "No hay personas registradas." << std::endl;
+    }
+    else {
+        for (const Paciente& paciente : pacientes) {
+            std::cout << "ID: " << paciente.id << ", Nombre: " << paciente.nombre << " " << paciente.apellido << std::endl;
+        }
+    }
+}
+
+void buscarPaciente() {
+    system("cls");
+    string filename = "./data/pacientes.txt";
+    unsigned int id;
+    std::cout << "Ingrese el ID del paciente: ";
+    std::cin >> id;
+
+    std::vector<Paciente> pacientes = cargarPaciente(filename);
+    Paciente pacienteEncontrado = buscarPorID(pacientes, id);
+
+    if (pacienteEncontrado.id != 0) {
+        mainMenu(mainMenuOptions, pacienteEncontrado, currentUser);
+    }
+    else {
+        std::cout << "Persona no encontrada." << std::endl;
+    }
+}
+
+void listaPacientes() {
+    system("cls");
+    string filename = "./data/pacientes.txt";
+    std::vector<Paciente> pacientes = cargarPaciente(filename);
+    listarPaciente(pacientes);
+}
+
+void opcionPaciente() {
+    int opcion;
+    do {
+        system("cls");
+        gotoxy(50, 2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50, 3);
+        cout << wall << "                                                   " << wall << endl;
+        gotoxy(50, 4);
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
+        gotoxy(50, 5);
+        cout << wall << "                                                   " << wall << endl;
+        gotoxy(50, 6);
+        cout << wall << "  1. BUSCAR PACIENTE                               " << wall << endl;
+        gotoxy(50, 7);
+        cout << wall << "  2. CREAR PACIENTE                                " << wall << endl;
+        gotoxy(50, 8);
+        cout << wall << "  3. LISTAR PACIENTES                              " << wall << endl;
+        gotoxy(50, 9);
+        cout << wall << "  4. SALIR                                         " << wall << endl;
+        gotoxy(50, 11);
+        cout << bottomLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << bottomRightCorner << endl;
+        gotoxy(79, 10);
+        cout << "                       " << wall << endl;
+        gotoxy(50, 10);
+        cout << wall << "  Seleccione una opcion:   ";cin >> opcion;
+
+        switch (opcion) {
+        case 1:
+            buscarPaciente();
+            system("pause");
+            break;
+
+        case 2:
+            crearPaciente();
+            system("pause");
+            break;
+        case 3:
+            listaPacientes();
+            system("pause");
+            break;
+
+        case 4:
+            system("cls");
+            gotoxy(50, 10);
+            color(3);
+            cout << "Saliendo...";
+            break;
+        default:
+            cout << "Opcion no valida. Intentalo de nuevo." << endl;
+        }
+        cout << endl;
+    } while (opcion != 4);
+}
+
 void login() {
 control:
   cin.ignore();
@@ -236,7 +420,7 @@ control:
   getline(cin, currentUser.password);
 
   if(validateUser(currentUser)) {
-    mainMenu(mainMenuOptions, currentUser);
+    opcionPaciente();
   }else {
     gotoxy(40, 7);
     color(4);
@@ -248,7 +432,7 @@ control:
   }
 }
 
-void mainMenu(vector<string> menuOptions, User currentUser) {
+void mainMenu(const vector<string> menuOptions, const Paciente paciente, User currentUser) {
     bool repeat = true;
     int opt = 1; // Opción seleccionada
     const int numOptions = menuOptions.size();
@@ -316,7 +500,17 @@ void mainMenu(vector<string> menuOptions, User currentUser) {
                     case 5:
                         imprimirCita();
                         break;
+
                     case 6:
+                        system("cls");
+                        {
+                            std::cout << "ID: " << paciente.id << ", Nombre: " << paciente.nombre
+                                << ", Apellido: " << paciente.apellido << ", Edad: " << paciente.edad << ", Telefono: " << paciente.telefono << ", DNI: " << paciente.dni << std::endl;
+                        }
+                        system("pause");
+                        break;
+
+                    case 7:
                         cout << "Salir" << endl;
                         repeat = false;
                         break;
