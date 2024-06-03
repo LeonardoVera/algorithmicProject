@@ -30,6 +30,13 @@ struct historialClinico {
   int id;
 };
 */
+struct HorariosMedicos{
+  string medico;
+  string fecha;
+  string horarios;
+
+};
+
 
 struct Paciente {
   string nombre;
@@ -46,6 +53,6 @@ struct Paciente {
 struct Cita {
   Paciente paciente;
   string descripcion;
-  Fecha fecha;
+  HorariosMedicos horariosMedicos;
   int id;
 };
