@@ -22,13 +22,6 @@ struct Fecha {
   Hora hora;
 };
 
-// TODO: Agregar enfermedades al historial clinico
-/*
-struct historialClinico {
-  set<string> enfermedades;
-  Fecha fecha;
-  int id;
-};
 */
 struct HorariosMedicos{
   string medico;
