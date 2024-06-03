@@ -9,6 +9,7 @@ struct User {
   string password;
 };
 
+
 // Estructuras anidadas necesarias para la creacion de una nueva cita
 struct Hora {
   int hora;

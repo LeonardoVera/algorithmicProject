@@ -7,3 +7,4 @@
 - **Rojas Rojas, Max** - *23200112*
 - **De la Cruz Meza, Angel Luis Kallpa** - *23200094*
 - **Poma Gutierrez, Gabriel Antonio** - *23200110*
+ola puto
