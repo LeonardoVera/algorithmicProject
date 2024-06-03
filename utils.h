@@ -25,7 +25,7 @@ bool validateUser(User currentUser);
 void inicioSesion();
 void crearCuenta();
 void login();
-void crearCita();
+void crearCita(Paciente paciente);
 void buscarCita();
 void mostrarCita(int id);
 void modificarCita();
@@ -36,6 +36,8 @@ void modificarHorarios (vector<string> horarios, int id);
 
 void eliminarCita();
 void eliminar(int id);
+
+void informacionPaciente(Paciente paciente);
 
 void imprimirCita();
 string getFechaActual();
@@ -317,13 +319,19 @@ void crearPaciente() {
     cout << "Paciente creado con ID: " << paciente.id << endl;
 }
 
-void listarPaciente(const std::vector<Paciente>& pacientes) {
+void listarPaciente(const vector<Paciente>& pacientes) {
     if (pacientes.empty()) {
-        std::cout << "No hay personas registradas." << std::endl;
+        cout << "No hay personas registradas." << std::endl;
     }
     else {
         for (const Paciente& paciente : pacientes) {
-            std::cout << "ID: " << paciente.id << ", Nombre: " << paciente.nombre << " " << paciente.apellido << std::endl;
+            cout << "ID: " << paciente.id << endl;
+            cout << "Nombre: " << paciente.nombre << endl;
+            cout << "Apellidos: " << paciente.apellido << endl;
+            cout << "Edad: " << paciente.edad << endl;
+            cout << "Telefono: " << paciente.telefono << endl;
+            cout << "DNI: " << paciente.dni << endl;
+            cout << endl;
         }
     }
 }
@@ -486,7 +494,7 @@ void mainMenu(const vector<string> menuOptions, const Paciente paciente, User cu
                 cin.ignore(); // Limpia el búfer después de usar cin
                 switch(opt) {
                     case 1:
-                        crearCita();
+                        crearCita(paciente);
                         break;
                     case 2:
                         buscarCita();
@@ -503,10 +511,7 @@ void mainMenu(const vector<string> menuOptions, const Paciente paciente, User cu
 
                     case 6:
                         system("cls");
-                        {
-                            std::cout << "ID: " << paciente.id << ", Nombre: " << paciente.nombre
-                                << ", Apellido: " << paciente.apellido << ", Edad: " << paciente.edad << ", Telefono: " << paciente.telefono << ", DNI: " << paciente.dni << std::endl;
-                        }
+                        informacionPaciente(paciente);
                         system("pause");
                         break;
 
@@ -519,47 +524,43 @@ void mainMenu(const vector<string> menuOptions, const Paciente paciente, User cu
         }
     } while (repeat);
 }
-void crearCita() {
+
+void informacionPaciente(Paciente paciente) {
+    system("cls");
+    cout << "ID: " << paciente.id << endl;
+    cout << "Nombre: " << paciente.nombre << endl;
+    cout << "Apellido: " << paciente.apellido << endl;
+    cout << "Edad: " << paciente.edad << endl;
+    cout << "Telefono: " << paciente.telefono << endl;
+    cout << "DNI: " << paciente.dni << endl;
+    system("pause");
+}
+void crearCita(Paciente paciente) {
     system("cls");
     gotoxy(50, 2);
     cout << "*****************************************************" << endl;
+    cita.paciente.nombre = paciente.nombre;
+    cita.paciente.apellido = paciente.apellido;
+    cita.paciente.edad = paciente.edad;
+    cita.paciente.dni = paciente.dni;
+    cita.paciente.telefono = paciente.telefono;
+
     gotoxy(50, 3);
-    cout << "Nombre del paciente: ";
-    getline(cin, cita.paciente.nombre);
-
-    gotoxy(50, 4);
-    cout << "Apellido del paciente: ";
-    getline(cin, cita.paciente.apellido);
-
-    gotoxy(50, 5);
-    cout << "Ingrese edad del paciente: ";
-    cin >> cita.paciente.edad;
-
-    gotoxy(50, 6);
-    cout << "DNI del paciente: ";
-    cin >> cita.paciente.dni;
-    cin.ignore();
-
-    gotoxy(50, 7);
-    cout << "Telefono del paciente: ";
-    getline(cin, cita.paciente.telefono);
-
-    gotoxy(50, 8);
     cout << "El paciente cuenta con SIS activo? (1/0) ";
     cin >> cita.paciente.SIS;
     cin.ignore();
 
-    gotoxy(50, 9);
+    gotoxy(50, 4);
     cout << "Motivo de consulta: ";
     getline(cin, cita.descripcion);
 
-    gotoxy(50, 10);
+    gotoxy(50, 5);
     cout << "Asigne un ID a la cita: ";
     cin >> cita.id;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
-    gotoxy(50,13);
-    cout << "Seleccione sus medico y horarios..." << endl;
+    gotoxy(50,7);
+    cout << "Mostrando seleccion de medicos y horarios..." << endl;
     system("pause");
 
     system("cls");
