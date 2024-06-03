@@ -525,7 +525,7 @@ void imprimirCita(){
       gotoxy(47, 12);
       archivo<< "Telefono: " << citas[i].paciente.telefono << endl;
       gotoxy(47, 13);
-      archivo<< "Medico programado: " << citas[i].descripcion << endl;
+      archivo<< "Medico programado: " << citas[i].horariosMedicos.medico << endl;
       gotoxy(47, 14);
       archivo<< "Fecha programada: " << citas[i].horariosMedicos.fecha << endl;
       gotoxy(47, 15);
