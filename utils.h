@@ -304,19 +304,35 @@ Paciente buscarPorID(const std::vector<Paciente>& pacientes, unsigned int id) {
 void crearPaciente() {
     Paciente paciente;
     paciente.id = generarID(1000, 9999);
+
+    system("cls");
+
+    gotoxy(50, 2);
     cout << "Ingrese el nombre: ";
     cin >> paciente.nombre;
+
+    gotoxy(50, 3);
     cout << "Ingrese el apellido: ";
     cin >> paciente.apellido;
+
+    gotoxy(50, 4);
     cout << "Ingrese la edad: ";
     cin >> paciente.edad;
+
+    gotoxy(50, 5);
     cout << "Ingrese el telefono: ";
     cin >> paciente.telefono;
+
+    gotoxy(50, 6);
     cout << "Ingrese el dni: ";
     cin >> paciente.dni;
 
     guardarPaciente("./data/pacientes.txt", paciente);
+
+    gotoxy(50, 8);
+    color(2);
     cout << "Paciente creado con ID: " << paciente.id << endl;
+    color(7);
 }
 
 void listarPaciente(const vector<Paciente>& pacientes) {
