@@ -215,7 +215,7 @@ void crearCuenta() {
     
     ofstream archivo(nombreArchivo, ios::app);
     if (archivo.is_open()) {
-        archivo << nombreUsuario << ":" << contrasena << endl;
+        archivo << endl << nombreUsuario << ":" << contrasena << endl;
         archivo.close();
         cout << "Datos guardados correctamente" << endl;
     } else {
