@@ -15,7 +15,7 @@ const char arrow = (char)175; // »
 
 //Vectores usados
 vector<string> mainMenuOptions = { "Crear cita", "Buscar Cita", "Modificar cita", "Eliminar cita","Imprimir cita","Informacion del paciente", "Salir" };
-vector<string> especialidades= {"Cardiologia", "Gastroenterologia", "Geriatria", "Medicina Interna", "Neurologia", "Oncologia", "Pediatria", "Psicologia", "Obstetricia", "Odontologia", "Otorrinolaringologia", "Urologia"};
+vector<string> especialidades= {"Cardiologia", "Gastroenterologia", "Geriatria", "Medicina Interna", "Neurologia", "Oncologia", "Pediatria", "Psicologia", "Obstetricia", "Odontologia", "Otorrinolaringologia", "Urologia", "salir"};
 vector<string> medicos = {"Jesus Andres Lujan Carrion", "Luis Bartolo Teran", "David Aldana Chavez", "Kevin Rhamses Bohorques","Marco Renato Castilla Huanca", "Salir"};
 vector<string> horarios = {"06:30", "7:30","8:30", "9:30", "10:30", "Salir"};
 vector<string> fecha = {"07/06/2024", "14/06/2024","21/06/2024", "28/06/2024", "05/07/2024", "Salir" };
@@ -326,11 +326,12 @@ void crearPaciente() {
 
     gotoxy(50, 2);
     cout << "Ingrese el nombre: ";
-    cin >> paciente.nombre;
+    cin.ignore();
+    getline(cin, paciente.nombre);
 
     gotoxy(50, 3);
     cout << "Ingrese el apellido: ";
-    cin >> paciente.apellido;
+    getline(cin, paciente.apellido);
 
     gotoxy(50, 4);
     cout << "Ingrese la edad: ";
@@ -678,7 +679,9 @@ void mostrarCita(int id){
       cout << "Descripcion de la cita: " << citas[i].descripcion << endl;
       gotoxy(47, 23);
       cout << "Fecha programada: " << citas[i].horariosMedicos.fecha<< endl;
-      gotoxy(47, 24);
+      gotoxy(47,24);
+      cout << "Area derivada: " << citas[i].horariosMedicos.especialista<<endl;
+      gotoxy(47, 25);
 
       gotoxy(85, 25);
       cout << "SIS Activo:";
@@ -868,7 +871,6 @@ void eleccionEspecialista(vector<string>especialidades){
                 break;
             case 13: // Tecla Enter
                 cita.horariosMedicos.especialista = especialidades[opt - 1];
-                //eleccionFecha(fecha);
                 repeat = false;
                 break;
         }
@@ -1295,21 +1297,21 @@ void modificarEspecialista (vector<string> especialidades, int id) {
           gotoxy(50, 2);
           cout << "*****************************************************" << endl;
           gotoxy(50, 3);
-        cout << "*                                                   *" << endl;
-        gotoxy(50, 4);
-        cout << "*              @..@      * *      @..@              *" << endl;
-        gotoxy(50,5);
-        cout << "*             (-__-)    *****    (-__-)             *" << endl;
-        gotoxy(50,6);
-        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
-        gotoxy(50,7);
-        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
-        gotoxy(50,8);
-        cout << "*                                                   *" << endl;
-        gotoxy(50,9);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
-        gotoxy(50,10);
-        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
+          cout << "*                                                   *" << endl;
+          gotoxy(50, 4);
+          cout << "*              @..@      * *      @..@              *" << endl;
+          gotoxy(50,5);
+          cout << "*             (-__-)    *****    (-__-)             *" << endl;
+          gotoxy(50,6);
+          cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
+          gotoxy(50,7);
+          cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
+          gotoxy(50,8);
+          cout << "*                                                   *" << endl;
+          gotoxy(50,9);
+          cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+          gotoxy(50,10);
+          cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
           gotoxy(50,11);
           cout << "*                                                   *" << endl; 
           gotoxy(50,12);
@@ -1326,15 +1328,15 @@ void modificarEspecialista (vector<string> especialidades, int id) {
                 cout << arrow;
                 color(2);
                 gotoxy(57, 16 + i);
-                cout << fecha[i] << endl;
+                cout << especialidades[i] << endl;
                 color(7);
             } else {
                 gotoxy(57, 16 + i);
-                cout << "   " << fecha[i] << endl;
+                cout << "   " << especialidades[i] << endl;
             }
           }
         
-        // Capturar la entrada del teclado
+         // Capturar la entrada del teclado
           char input = _getch();
           switch(input) {
               case 72: // Flecha arriba
@@ -1344,41 +1346,20 @@ void modificarEspecialista (vector<string> especialidades, int id) {
                 opt = (opt == numOptions) ? 1 : opt + 1;
                 break;
               case 13: // Tecla Enter
-                switch(opt) {
-                    case 1:
-                        citas[i].horariosMedicos.especialista = especialidades[0];
-                        modificarEspecialista (especialidades, id);
-                        repeat = false;
-                        break;
-                    case 2:
-                        citas[i].horariosMedicos.especialista = especialidades[1];
-                        modificarEspecialista (especialidades, id);
-                        repeat = false;
-                        break;
-                    case 3:
-                        citas[i].horariosMedicos.especialista = especialidades[2];
-                        modificarEspecialista (especialidades, id);
-                        repeat = false;
-                        break;
-                    case 4:
-                        citas[i].horariosMedicos.especialista = especialidades[3];
-                        modificarEspecialista (especialidades, id);
-                        repeat = false;
-                        break;
-                    case 5:
-                        citas[i].horariosMedicos.especialista = especialidades[4];
-                        modificarEspecialista (especialidades, id);
-                        repeat = false;
-                        break;
-                    case 6:
-                        cout << "Salir" << endl;
-                        repeat = false;
-                        break;
-            } break;
+                if (opt >= 1 && opt <= numOptions) {
+                  citas[i].horariosMedicos.especialista = especialidades[opt - 1];
+                  }
+                  repeat = false;
+                  break;
           }
         } while (repeat);
       }
+      system("cls");
+      gotoxy(50, 16);
+      cout << "Especialista modificado exitosamente." << endl;
+      system("pause");
     }
+    
 }
     
 void modificarHorarios (vector<string> horarios, int id) {
