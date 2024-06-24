@@ -126,7 +126,7 @@ void modificarCita() {
             getline(cin, citas[i].paciente.telefono);
             break;
           case 6:
-            cout << "El paciente cuenta con SIS activo? (1/0) ";
+            cout << "El paciente cuenta con SIS activo? (si=1/no=0) ";
             cin >> citas[i].paciente.SIS;
             break;
           case 7:
@@ -868,7 +868,7 @@ void eleccionEspecialista(vector<string>especialidades){
                 break;
             case 13: // Tecla Enter
                 cita.horariosMedicos.especialista = especialidades[opt - 1];
-                eleccionFecha(fecha);
+                //eleccionFecha(fecha);
                 repeat = false;
                 break;
         }
@@ -904,7 +904,7 @@ void eleccionMedicos (vector<string> medicos) {
         gotoxy(50, 11);
         cout << "*                                                   *" << endl; 
         gotoxy(50, 12);
-        cout << "*              Seleccione el doctor                 *" << endl; 
+        cout << "*              Seleccione un medico                 *" << endl; 
         gotoxy(50, 13);
         cout << "*                                                   *" << endl; 
         gotoxy(50, 14);
@@ -1070,6 +1070,7 @@ void eleccionHorarios (vector<string> horarios) {
                 break;
             case 13: // Tecla Enter
                 cita.horariosMedicos.horarios = horarios[opt - 1];
+                eleccionEspecialista(especialidades);
                 repeat = false;
                 break;
         }
