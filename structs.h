@@ -27,6 +27,7 @@ struct HorariosMedicos{
   string medico;
   string fecha;
   string horarios;
+  string especialista;
 
 };
 
