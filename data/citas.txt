@@ -11,3 +11,42 @@ Telefono: 1653121
 Descripcion: cefalea
 Fecha programada: 12/12/2020
 
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 06:30
+Nombre: xiomara reyes
+Telefono: 951543154
+Medico programado: Jesus Andres Lujan Carrion
+Fecha programada: 07/06/2024
+Descripcion: a
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 06:30
+Nombre: xiomara reyes
+Telefono: 951543154
+Medico programado: Jesus Andres Lujan Carrion
+Fecha programada: 07/06/2024
+Descripcion: Medicina General
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 06:30
+Nombre: xiomara reyes
+Telefono: 951543154
+Medico programado: Jesus Andres Lujan Carrion
+Fecha programada: 07/06/2024
+Descripcion: Medicina General
