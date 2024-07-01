@@ -50,3 +50,42 @@ Telefono: 951543154
 Medico programado: Jesus Andres Lujan Carrion
 Fecha programada: 07/06/2024
 Descripcion: Medicina General
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 8:30
+Nombre: Xiomara  Salda¤a Garcia
+Telefono: 945124198
+Medico programado: Jesus Andres Lujan Carrion
+Fecha programada: 28/06/2024
+Descripcion: dolor de muela
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 10:00
+Nombre: Xiomara 
+Telefono: 951543154
+Medico programado: Gastroenterologia - Sanchez Morales David
+Fecha programada: 20/07/2024
+Descripcion: dolor estomacal
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 10:00
+Nombre: Xiomara 
+Telefono: 951543154
+Medico programado: Gastroenterologia - Sanchez Morales David
+Fecha programada: 20/07/2024
+Descripcion: dolor estomacal
