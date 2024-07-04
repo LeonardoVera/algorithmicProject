@@ -2,7 +2,10 @@
     "files.associations": {
         "iostream": "cpp",
         "ostream": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "chrono": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
