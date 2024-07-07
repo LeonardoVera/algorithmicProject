@@ -89,3 +89,68 @@ Telefono: 951543154
 Medico programado: Gastroenterologia - Sanchez Morales David
 Fecha programada: 20/07/2024
 Descripcion: dolor estomacal
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 07:00
+Nombre: Xiomara Reyes Bellido
+Telefono: 925412578
+Medico programado: Medicina Interna - Vargas Jimenez Pedro
+Fecha programada: 17/07/2024
+Descripcion: aa
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 07:00
+Nombre: Xiomara Reyes Bellido
+Telefono: 925412578
+Medico programado: Cardiologia - Martinez Fernandez Ana
+Fecha programada: 15/07/2024
+Descripcion: aa
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 07:00
+Nombre: Xiomara Reyes Bellido
+Telefono: 925412578
+Medico programado: Cardiologia - Martinez Fernandez Ana
+Fecha programada: 15/07/2024
+Descripcion: aa
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 07:00
+Nombre: Xiomara Reyes Bellido
+Telefono: 925412578
+Medico programado: Cardiologia - Martinez Fernandez Ana
+Fecha programada: 15/07/2024
+Descripcion: aa
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 9:00
+Nombre: Alan Gabriel Garcia Perez
+Telefono: 958741245
+Medico programado: Neurologia - Gutierrez Ramirez Lucia
+Fecha programada: 17/07/2024
+Descripcion: Dolor de cabeza
