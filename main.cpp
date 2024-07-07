@@ -7,11 +7,13 @@
 #include <conio.h>
 #include <windows.h>
 #include <set>
+#include <random>
 #include "gotoxy.h"
 #include "utils.h"
 
+
 int main() {
   ocultarCursor();
-  inicioSesion();
+  inicioSesion(menuInicio);
   return 0;
 }

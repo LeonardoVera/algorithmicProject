@@ -22,29 +22,23 @@ struct Fecha {
   Hora hora;
 };
 
-// TODO: Agregar enfermedades al historial clinico
-/*
-struct historialClinico {
-  set<string> enfermedades;
-  Fecha fecha;
-  int id;
-};
-*/
+
 struct HorariosMedicos{
   string medico;
   string fecha;
   string horarios;
+  string especialista;
 
 };
 
 
 struct Paciente {
+  int id;
   string nombre;
   string apellido;
-  int edad;
+  string edad;
   string telefono;
-  int dni;
-  // TODO: Agregar historial clinico
+  string dni;
   int numHistoriaClinica;
   bool SIS;
 

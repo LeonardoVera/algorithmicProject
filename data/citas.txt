@@ -10,6 +10,7 @@ Nombre: Cristian Leonardo Vera Rodriguez
 Telefono: 1653121
 Descripcion: cefalea
 Fecha programada: 12/12/2020
+
 TICKET DE CITA
 ---------------------------------------------------------------------
 Centro de salud Colita de Rana
@@ -18,8 +19,73 @@ Av. San Borja Sur 123 Lima, Peru
 Telefono: 123456789
 ---------------------------------------------------------------------
 Hora programada: 06:30
-Nombre: Gabriel Antonoi Poma Gutierrez
-Telefono: 965445432
-Medico programado: Dolor de estomago
+Nombre: xiomara reyes
+Telefono: 951543154
+Medico programado: Jesus Andres Lujan Carrion
 Fecha programada: 07/06/2024
-Descripcion: Dolor de estomago
+Descripcion: a
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 06:30
+Nombre: xiomara reyes
+Telefono: 951543154
+Medico programado: Jesus Andres Lujan Carrion
+Fecha programada: 07/06/2024
+Descripcion: Medicina General
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 06:30
+Nombre: xiomara reyes
+Telefono: 951543154
+Medico programado: Jesus Andres Lujan Carrion
+Fecha programada: 07/06/2024
+Descripcion: Medicina General
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 8:30
+Nombre: Xiomara  Salda¤a Garcia
+Telefono: 945124198
+Medico programado: Jesus Andres Lujan Carrion
+Fecha programada: 28/06/2024
+Descripcion: dolor de muela
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 10:00
+Nombre: Xiomara 
+Telefono: 951543154
+Medico programado: Gastroenterologia - Sanchez Morales David
+Fecha programada: 20/07/2024
+Descripcion: dolor estomacal
+TICKET DE CITA
+---------------------------------------------------------------------
+Centro de salud Colita de Rana
+RUC: 20131257750
+Av. San Borja Sur 123 Lima, Peru
+Telefono: 123456789
+---------------------------------------------------------------------
+Hora programada: 10:00
+Nombre: Xiomara 
+Telefono: 951543154
+Medico programado: Gastroenterologia - Sanchez Morales David
+Fecha programada: 20/07/2024
+Descripcion: dolor estomacal
