@@ -11,8 +11,9 @@
 #include "gotoxy.h"
 #include "utils.h"
 
+
 int main() {
   ocultarCursor();
-  inicioSesion();
+  inicioSesion(menuInicio);
   return 0;
 }
