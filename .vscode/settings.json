@@ -3,8 +3,14 @@
         "iostream": "cpp",
         "ostream": "cpp",
         "*.tcc": "cpp",
+<<<<<<< HEAD
         "iosfwd": "cpp",
         "xstring": "cpp"
+=======
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "chrono": "cpp"
+>>>>>>> 1f4c75db8401e11c7d42287b07b803dd223f4ad6
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
