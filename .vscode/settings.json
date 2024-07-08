@@ -3,9 +3,8 @@
         "iostream": "cpp",
         "ostream": "cpp",
         "*.tcc": "cpp",
-        "fstream": "cpp",
-        "iomanip": "cpp",
-        "chrono": "cpp"
+        "iosfwd": "cpp",
+        "xstring": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

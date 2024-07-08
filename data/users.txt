@@ -1,9 +1,12 @@
 admin:admin
 
 admin1:admin1
+<<<<<<< HEAD
+=======
 
 :
 
 cedkva:cedkva
 
 admin1:admin1
+>>>>>>> 1f4c75db8401e11c7d42287b07b803dd223f4ad6

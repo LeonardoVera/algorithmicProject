@@ -1225,9 +1225,21 @@ string getFechaActual() {
     return ss.str();
 }
 
+string getFechaActualSinFormato() {
+    auto now = chrono::system_clock::now();
+    time_t now_c = chrono::system_clock::to_time_t(now);
+
+    stringstream ss;
+
+    ss << put_time(localtime(&now_c), "%Y%m%d%H%M%S");
+
+    return ss.str();
+}
+
 void imprimirCita(){
-  ofstream archivo("./data/citas.txt", ios::app);
-  system("cls");
+  string txtFecha = getFechaActualSinFormato();
+  string txtPath = "", txtNombrePaciente = "";
+
   int id;
     color(7);
     gotoxy(30,21);
@@ -1257,6 +1269,10 @@ void imprimirCita(){
 
   for (int i = 0; i < citas.size(); ++i) {
     if (citas[i].id == id) {
+      txtNombrePaciente = citas[i].paciente.nombre + citas[i].paciente.apellido;
+      string txtPath = "./data/cita" + txtNombrePaciente + txtFecha + ".txt";
+      ofstream archivo(txtPath, ios::app);
+      system("cls");
       gotoxy(60, 3);
       color(14);
       archivo << "TICKET DE CITA\n";
@@ -1287,12 +1303,12 @@ void imprimirCita(){
       gotoxy(47, 15);
       archivo<< "Descripcion: " << citas[i].descripcion << endl;
       break;
+      archivo.close();
+      color(10);
+      cout << "Cita impresa" << endl;
     }
   }
-  archivo.close();
-  color(10);
-  cout << "Cita impresa" << endl;
-  system("pause");
+  system("pause"); 
 }
 
 void eleccionEspecialista(vector<string>especialidades){
