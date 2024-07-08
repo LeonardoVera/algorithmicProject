@@ -1,5 +1,7 @@
 #include "structs.h"
 #include "gotoxy.h"
+#include <windows.h>
+
 
 vector<Cita> citas;
 User currentUser;
@@ -19,6 +21,9 @@ vector<string> especialidades= {"Cardiologia", "Gastroenterologia", "Geriatria",
 vector<string> medicos = {"Cardiologia - Martinez Fernandez Ana", "Gastroenterologia - Sanchez Morales David", "Geriatria - Castillo Rodriguez Laura", "Medicina Interna - Vargas Jimenez Pedro", "Neurologia - Gutierrez Ramirez Lucia", "Oncologia - Ruiz Fernandez Marcos", "Pediatria - Hernandez Martinez Claudia", "Psicologia - Rodriguez Jimenez Ana", "Obstetricia - Torres Sanchez Elena", "Odontologia - Martinez Hernandez Carlos", "Otorrinolaringologia - Sanchez Castillo Adriana", "Urologia - Morales Torres Andres", "Salir"};
 vector<string> horarios = {"07:00", "8:00","9:00", "10:00", "11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00", "Salir"};
 vector<string> fecha = {"15/07/2024", "16/07/2024","17/07/2024", "18/07/2024", "19/07/2024","20/07/2024","21/07/2024","22/07/2024","23/07/2024","24/07/2024","25/07/2024","26/07/2024","27/07/2024", "Salir" };
+//Vectores de menu
+vector<string> menuInicio = {"Inicio de sesion", "Crear cuenta", "Salir"};
+vector<string> menuPaciente = {"Buscar paciente", "Crear paciente", "Listar pacientes", "Salir"};
 
 // Validacion de datos
 bool validateUser(User currentUser);
@@ -113,7 +118,7 @@ void modificarCita() {
   cout<<"                                                                   #####  #####                                      ######    #####"<<endl;
   cout<<""<<endl;
   gotoxy(10,5);
-  color(5);
+  color(3);
   cout << "Ingrese el ID de la cita a modificar:  ";
   cin >> id;
 
@@ -127,26 +132,6 @@ void modificarCita() {
 
       while(repeat) {
         system("cls");
-        gotoxy(30,4);
-        cout<<"-----------------------------------------------------------------------------------------"<<endl;
-        color(4);
-        gotoxy(30,22);
-        cout<<"                                          *   *                                          "<<endl;
-        gotoxy(30,23);
-        cout<<"           *                             *** ***          *                    *         "<<endl;
-        gotoxy(30,24);
-        cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-        gotoxy(30,25);
-        cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-        gotoxy(30,26);
-        cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-        gotoxy(30,27);
-        cout<<"               *                 *         ***                *                          "<<endl;
-        gotoxy(30,28);
-        cout<<"                                            *                                            "<<endl;
-        color(7);
-        gotoxy(30,29);
-        cout<<"-----------------------------------------------------------------------------------------"<<endl;
         gotoxy(30,5);
         color(13);
         cout << "Seleccione el dato a modificar:" << endl;
@@ -183,33 +168,40 @@ void modificarCita() {
             mostrarCita(id);
             break;
           case 1:
+            gotoxy(30,whereY());
             cout << "Ingrese el nuevo nombre del paciente: ";
             cin.ignore();
             getline(cin, citas[i].paciente.nombre);
             break;
           case 2:
+            gotoxy(30,whereY());
             cout << "Ingrese el nuevo apellido del paciente: ";
             cin.ignore();
             getline(cin, citas[i].paciente.apellido);
             break;
           case 3:
+            gotoxy(30,whereY());
             cout << "Ingrese la nueva edad del paciente: ";
             cin >> citas[i].paciente.edad;
             break;
           case 4:
+            gotoxy(30,whereY());
             cout << "Ingrese el nuevo DNI del paciente: ";
             cin >> citas[i].paciente.dni;
             break;
           case 5:
+            gotoxy(30,whereY());
             cout << "Ingrese el nuevo telefono del paciente: ";
             cin.ignore();
             getline(cin, citas[i].paciente.telefono);
             break;
           case 6:
+            gotoxy(30,whereY());
             cout << "El paciente cuenta con SIS activo? (si=1/no=0) ";
             cin >> citas[i].paciente.SIS;
             break;
           case 7:
+            gotoxy(30,whereY());
             cout << "Ingrese el nuevo motivo de consulta: ";
             cin.ignore();
             getline(cin, citas[i].descripcion);
@@ -235,6 +227,7 @@ void modificarCita() {
     }
   }
   cout << "Cita con ID " << id << " no encontrada." << endl;
+  system("pause");
 }
 
 bool validateUser(User currentUser) {
@@ -260,11 +253,12 @@ bool validateUser(User currentUser) {
   }
   return false;
 }
-void inicioSesion(){
-    int opcion; 
+void inicioSesion(const vector<string> menuInicio){
+    int opcion = 1; 
+    bool repeat = true;
     do {
         color(3);
-        system("cls");
+        system("cls");   
         gotoxy(50,1);
         cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
         gotoxy(50,2);
@@ -280,15 +274,15 @@ void inicioSesion(){
         gotoxy(50,7);
         cout << wall << "                                                   " << wall << endl;
         gotoxy(50,8);
-        cout << wall << "  ***  *** *** *   * ***  *** *   * *** **   ****  " << wall << endl;
+        cout << wall << " ***  *** *** *   * *   * *** *   * *** **   ****  " << wall << endl;
         gotoxy(50,9);
-        cout << wall << "  *  *  *  *   **  * *  * *   **  *  *  * *  *  *  " << wall << endl;
+        cout << wall << " *  *  *  *   **  * *   * *   **  *  *  * *  *  *  " << wall << endl;
         gotoxy(50,10);
-        cout << wall << "  ***   *  **  * * * ***  **  * * *  *  *  * *  *  " << wall << endl;
+        cout << wall << " ***   *  **  * * *  * *  **  * * *  *  *  * *  *  " << wall << endl;
         gotoxy(50,11);
-        cout << wall << "  *  *  *  *   *  ** *  * *   *  **  *  * *  *  *  " << wall << endl;
+        cout << wall << " *  *  *  *   *  **  * *  *   *  **  *  * *  *  *  " << wall << endl;
         gotoxy(50,12);
-        cout << wall << "  ***  *** *** *   * ***  *** *   * *** **   ****  " << wall << endl;
+        cout << wall << " ***  *** *** *   *   *   *** *   * *** **   ****  " << wall << endl;
         gotoxy(50,13);
         cout << wall << "                                                   " << wall << endl;
         gotoxy(50,14);
@@ -297,18 +291,13 @@ void inicioSesion(){
         cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
         gotoxy(50,16);
         cout << wall << "                                                   " << wall << endl;
-        gotoxy(50,17);
-        cout << wall << "     1. INICIO DE SESION                           " << wall << endl; 
-        gotoxy(50,18);
-        cout << wall << "     2. CREACION DE CUENTA                         " << wall << endl; 
-        gotoxy(50,19);
-        cout << wall << "     3. SALIR                                      " << wall << endl;
-        gotoxy(50,20);
-        cout << wall << "                                                   " << wall << endl;
-        gotoxy(50,21);
-        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,22);
         cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
+        gotoxy(50,17); cout << wall; gotoxy(102,17); cout << wall << endl;
+        gotoxy(50,18); cout << wall; gotoxy(102,18); cout << wall << endl;
+        gotoxy(50,19); cout << wall; gotoxy(102,19); cout << wall << endl;
+        gotoxy(50,20); cout << wall; gotoxy(102,20); cout << wall << endl;
+        gotoxy(50,21); cout << wall; gotoxy(102,21); cout << wall << endl;
         color(4);
         gotoxy(30,23);
         cout<<"                                          *   *                                          "<<endl;
@@ -324,31 +313,48 @@ void inicioSesion(){
         cout<<"               *                 *         ***                *                          "<<endl;
         gotoxy(30,29);
         cout<<"                                            *                                            "<<endl;
-        color(3);
-        gotoxy(79,20);
-        cout<<"                       " << wall << endl;
-        gotoxy(50,20); 
-        cout << wall << "  Seleccione una opcion:   ";cin >> opcion;
-        
-        
-        switch(opcion) {
-            case 1:
-                login();
-                break;
-            case 2:
-                crearCuenta();
-                break;
-            case 3:
-                system("cls");
-                gotoxy(10, 10);
-                color(5);
-                cout << "Saliendo...";
-                break;
-            default:
-                cout << "Opción invalida. Intentalo nuevamente." << endl;
+
+        //Hacer un menu de tres opciones manejado con las flechas direccionales, las opciones son del vector menuInicio
+        for (int i = 0; i < menuInicio.size(); ++i) {
+            color(15);
+            if (i == opcion - 1) {
+                color(3);
+                gotoxy(65, 18 + i);
+                cout << arrow;
+                color(3);
+                gotoxy(67, 18 + i);
+                cout << menuInicio[i] << endl;
+                color(15);
+            } else {
+                gotoxy(57, 18 + i);
+                cout << "   " << menuInicio[i] << endl;
+            }
         }
-        cout << endl;
-    } while(opcion != 3);
+        char input = _getch();
+        switch(input) {
+            case 72: // Flecha arriba
+                opcion = (opcion == 1) ? menuInicio.size() : opcion - 1;
+                break;
+            case 80: // Flecha abajo
+                opcion = (opcion == menuInicio.size()) ? 1 : opcion + 1;
+                break;
+            case 13: // Tecla Enter
+                cin.ignore(); // Limpia el búfer después de usar cin
+                switch(opcion) {
+                    case 1:
+                        login();
+                        break;
+                    case 2:
+                        crearCuenta();
+                        break;
+                    case 3:
+                        cout << "Salir" << endl;
+                        repeat = false;
+                        break;
+                }
+                break;
+        }
+    } while(repeat);
 }
 
 void crearCuenta() {
@@ -357,53 +363,11 @@ void crearCuenta() {
     string nombreArchivo = "./data/users.txt";
 
     system("cls");
-    color(10);
-        cout<<"                                                                                                            #############"<<endl;
-        cout<<"                                                                          ###############                ###################"<<endl;
-        cout<<"                                                                      #######################          #####              ####"<<endl;
-        cout<<"                                                                     ######              ######       ####                 #####"<<endl;
-        cout<<"                                                                    ####    ####            ####     ####                    ####"<<endl;
-        cout<<"                                                                   ####   ######             ####   ####              #####  ####"<<endl;
-        cout<<"                                                                  ####    #####               ###  ####              #######  ####"<<endl;
-        cout<<"                                                                  ####                       ##########               #####   ####"<<endl;
-        cout<<"                                                                   ####                      ####..####                      ####"<<endl;
-        cout<<"                                                                    ####                   #####....####                    #####"<<endl;
-        cout<<"                                                                     ######              ######.....#####                  #####"<<endl;
-        cout<<"                                                                       ##########    ########........#####               ####"<<endl;
-        cout<<"                                                                       ###################.............######         ##########"<<endl;
-        cout<<"                                                                    ######......#####....................#################..######"<<endl;
-        cout<<"                                                                 ######.......................................########........#####"<<endl;
-        cout<<"                                                               ######......................####.....#####.......................#####"<<endl;
-        cout<<"                                                             ######........................####.....#####.........................####"<<endl;
-        cout<<"                                                            #####....................................................#########.....####"<<endl;
-        cout<<"                                                           #####...........#############....................####################....####"<<endl;
-        cout<<"                                                           ####.........####################............############................####"<<endl;
-        cout<<"                                                            ####.......................#######.......########......................####"<<endl;
-        cout<<"                                                             ####..........................######.#######.......................#####"<<endl;
-        cout<<"                                                               #####...........................#######......................######"<<endl;
-        cout<<"                                                                  ######................................................#######   ########"<<endl;
-        cout<<"                                                             ####     #######......................................########### ##############"<<endl;
-        cout<<"                                                          ###########################.......................############:::#######........####"<<endl;
-        cout<<"                                                        ####.......#####:::::::####################################::::::::::#####........####"<<endl;
-        cout<<"                                                        ###.......####:::::::::::::::########################::::::::::::::::::####.......####"<<endl;
-        cout<<"                                                        ####.....####:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::####......###"<<endl;
-        cout<<"                                                         ###....####::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::####.....####"<<endl;
-        cout<<"                                                          ###...###:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::###.....####"<<endl;
-        cout<<"                                                          ####..####:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::####....####"<<endl;
-        cout<<"                                                            #########:::::::::::::::::::::::::::::::::::::::::::::::::::::::::#####...####"<<endl;
-        cout<<"                                                            ##########::::::::::::::::::::::::::::::::::::::::::::::::::::::############"<<endl;
-        cout<<"                                                           ####.....####:::::::::::::::::::::::::::::::::::::::::::::::::#####.....######"<<endl;
-        cout<<"                                                         ####.........######::::::::::::::::::::::::::::::::::::::::########..........#####"<<endl;
-        cout<<"                                                        ####...####......#########:::::::::::::::::::::::::::############...............####"<<endl;
-        cout<<"                                                       ####.########...####..####################################   ####..#####...##########"<<endl;
-        cout<<"                                                       ########  ###############       ###################          ###.############# #####"<<endl;
-        cout<<"                                                                   #####  #####                                      ######    #####"<<endl;
-    color(5);
-    gotoxy(5, 1);
+    gotoxy(40, 5);
     cout << "Ingrese un nombre de usuario: ";
     cin.ignore();
     getline(cin, nombreUsuario);
-    gotoxy(5, 3);
+    gotoxy(40, 7);
     cout << "Ingrese una contrasena: ";
     getline(cin, contrasena);
     
@@ -483,80 +447,34 @@ void crearPaciente() {
     paciente.id = generarID(1000, 9999);
 
     system("cls");
-    gotoxy(50, 1);
-    cout << "*****************************************************" << endl;
-    gotoxy(50, 2);
-    cout << "*              @..@      * *      @..@              *" << endl;
-    gotoxy(50,3);
-    cout << "*             (-__-)    *****    (-__-)             *" << endl;
-    gotoxy(50,4);
-    cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
-    gotoxy(50,5);
-    cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
-    gotoxy(50,6);
-    cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
-    gotoxy(50,7);
-    cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
-    gotoxy(50,8);
-    cout << "*                                                   *" << endl; 
-    gotoxy(50,9);
-    cout << "*  RUC: 20131257750                                 *" << endl; 
-    gotoxy(50,10);
-    cout << "*  SEDE: San Borja - Lima                           *" << endl;
-    gotoxy(50,11);
-    cout << "*           'Registro del nuevo paciente'           *" << endl;  
-    gotoxy(50,12);
-    cout << "*****************************************************" << endl;
-    color(7);
-    gotoxy(30,21);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
-    color(4);
-    gotoxy(30,22);
-    cout<<"                                          *   *                                          "<<endl;
-    gotoxy(30,23);
-    cout<<"           *                             *** ***          *                    *         "<<endl;
-    gotoxy(30,24);
-    cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-    gotoxy(30,25);
-    cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-    gotoxy(30,26);
-    cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-    gotoxy(30,27);
-    cout<<"               *                 *         ***                *                          "<<endl;
-    gotoxy(30,28);
-    cout<<"                                            *                                            "<<endl;
-    color(7);
-    gotoxy(30,29);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
 
-    gotoxy(50, 14);
+    gotoxy(50, 2);
     cout << "Ingrese el nombre: ";
-    cin.ignore();
     getline(cin, paciente.nombre);
 
-    gotoxy(50, 15);
+    gotoxy(50, 3);
     cout << "Ingrese el apellido: ";
     getline(cin, paciente.apellido);
 
-    gotoxy(50, 16);
+    gotoxy(50, 4);
     cout << "Ingrese la edad: ";
     cin >> paciente.edad;
 
-    gotoxy(50, 17);
+    gotoxy(50, 5);
     cout << "Ingrese el telefono: ";
     cin >> paciente.telefono;
 
-    gotoxy(50, 18);
+    gotoxy(50, 6);
     cout << "Ingrese el dni: ";
     cin >> paciente.dni;
 
     guardarPaciente("./data/pacientes.txt", paciente);
 
-    gotoxy(50, 19);
+    gotoxy(50, 8);
     color(2);
     cout << "Paciente creado con ID: " << paciente.id << endl;
     color(7);
-    
+    system("pause");
 }
 
 void listarPaciente(const vector<Paciente>& pacientes) {
@@ -579,49 +497,8 @@ void listarPaciente(const vector<Paciente>& pacientes) {
 void buscarPaciente() {
     system("cls");
     string filename = "./data/pacientes.txt";
-    color(10);
-        cout<<"                                                                                                            #############"<<endl;
-        cout<<"                                                                          ###############                ###################"<<endl;
-        cout<<"                                                                      #######################          #####              ####"<<endl;
-        cout<<"                                                                     ######              ######       ####                 #####"<<endl;
-        cout<<"                                                                    ####    ####            ####     ####                    ####"<<endl;
-        cout<<"                                                                   ####   ######             ####   ####              #####  ####"<<endl;
-        cout<<"                                                                  ####    #####               ###  ####              #######  ####"<<endl;
-        cout<<"                                                                  ####                       ##########               #####   ####"<<endl;
-        cout<<"                                                                   ####                      ####..####                      ####"<<endl;
-        cout<<"                                                                    ####                   #####....####                    #####"<<endl;
-        cout<<"                                                                     ######              ######.....#####                  #####"<<endl;
-        cout<<"                                                                       ##########    ########........#####               ####"<<endl;
-        cout<<"                                                                       ###################.............######         ##########"<<endl;
-        cout<<"                                                                    ######......#####....................#################..######"<<endl;
-        cout<<"                                                                 ######.......................................########........#####"<<endl;
-        cout<<"                                                               ######......................####.....#####.......................#####"<<endl;
-        cout<<"                                                             ######........................####.....#####.........................####"<<endl;
-        cout<<"                                                            #####....................................................#########.....####"<<endl;
-        cout<<"                                                           #####...........#############....................####################....####"<<endl;
-        cout<<"                                                           ####.........####################............############................####"<<endl;
-        cout<<"                                                            ####.......................#######.......########......................####"<<endl;
-        cout<<"                                                             ####..........................######.#######.......................#####"<<endl;
-        cout<<"                                                               #####...........................#######......................######"<<endl;
-        cout<<"                                                                  ######................................................#######   ########"<<endl;
-        cout<<"                                                             ####     #######......................................########### ##############"<<endl;
-        cout<<"                                                          ###########################.......................############:::#######........####"<<endl;
-        cout<<"                                                        ####.......#####:::::::####################################::::::::::#####........####"<<endl;
-        cout<<"                                                        ###.......####:::::::::::::::########################::::::::::::::::::####.......####"<<endl;
-        cout<<"                                                        ####.....####:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::####......###"<<endl;
-        cout<<"                                                         ###....####::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::####.....####"<<endl;
-        cout<<"                                                          ###...###:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::###.....####"<<endl;
-        cout<<"                                                          ####..####:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::####....####"<<endl;
-        cout<<"                                                            #########:::::::::::::::::::::::::::::::::::::::::::::::::::::::::#####...####"<<endl;
-        cout<<"                                                            ##########::::::::::::::::::::::::::::::::::::::::::::::::::::::############"<<endl;
-        cout<<"                                                           ####.....####:::::::::::::::::::::::::::::::::::::::::::::::::#####.....######"<<endl;
-        cout<<"                                                         ####.........######::::::::::::::::::::::::::::::::::::::::########..........#####"<<endl;
-        cout<<"                                                        ####...####......#########:::::::::::::::::::::::::::############...............####"<<endl;
-        cout<<"                                                       ####.########...####..####################################   ####..#####...##########"<<endl;
-        cout<<"                                                       ########  ###############       ###################          ###.############# #####"<<endl;
-        cout<<"                                                                   #####  #####                                      ######    #####"<<endl;
     unsigned int id;
-    gotoxy(10,1);
+    gotoxy(50,10);
     color(5);
     cout << "Ingrese el ID del paciente: ";
     cin >> id;
@@ -642,17 +519,19 @@ void listaPacientes() {
     string filename = "./data/pacientes.txt";
     std::vector<Paciente> pacientes = cargarPaciente(filename);
     listarPaciente(pacientes);
+    system("pause");
 }
 
-void opcionPaciente() {
-    int opcion;
+void opcionPaciente(const vector<string> menuPaciente) {
+    int opcion = 1; 
+    bool repeat = true;
+    const int num = menuPaciente.size();
     do {
-        
-        system("cls");
         color(3);
-        gotoxy(50, 2);
-        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << topRightCorner << endl;
-        gotoxy(50, 3);
+        system("cls");   
+        gotoxy(50,2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50,3);
         cout << wall << "                                                   " << wall << endl;
         gotoxy(50, 4);
         cout << wall << "              @..@      * *      @..@              " << wall << endl;
@@ -665,135 +544,93 @@ void opcionPaciente() {
         gotoxy(50,8);
         cout << wall << "                                                   " << wall << endl;
         gotoxy(50,9);
-        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
+        cout << wall << " ***  *** *** *   * *   * *** *   * *** **   ****  " << wall << endl;
         gotoxy(50,10);
-        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl;
+        cout << wall << " *  *  *  *   **  * *   * *   **  *  *  * *  *  *  " << wall << endl;
         gotoxy(50,11);
+        cout << wall << " ***   *  **  * * *  * *  **  * * *  *  *  * *  *  " << wall << endl;
+        gotoxy(50,12);
+        cout << wall << " *  *  *  *   *  **  * *  *   *  **  *  * *  *  *  " << wall << endl;
+        gotoxy(50,13);
+        cout << wall << " ***  *** *** *   *   *   *** *   * *** **   ****  " << wall << endl;
+        gotoxy(50,14);
         cout << wall << "                                                   " << wall << endl;
-        gotoxy(50, 12);
-        cout << wall << "  1. BUSCAR PACIENTE                               " << wall << endl;
-        gotoxy(50, 13);
-        cout << wall << "  2. CREAR PACIENTE                                " << wall << endl;
-        gotoxy(50, 14);
-        cout << wall << "  3. LISTAR PACIENTES                              " << wall << endl;
-        gotoxy(50, 15);
-        cout << wall << "  4. SALIR                                         " << wall << endl;
-        gotoxy(50, 16);
-        cout << wall << "                                                   " << wall << endl; 
-        gotoxy(50, 18);
-        cout << bottomLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << bottomRightCorner << endl;
-        color(7);
-        gotoxy(30,21);
-        cout<<"-----------------------------------------------------------------------------------------"<<endl;
-        color(4);
-        gotoxy(30,22);
-        cout<<"                                          *   *                                          "<<endl;
-        gotoxy(30,23);
-        cout<<"           *                             *** ***          *                    *         "<<endl;
-        gotoxy(30,24);
-        cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-        gotoxy(30,25);
-        cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-        gotoxy(30,26);
-        cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-        gotoxy(30,27);
-        cout<<"               *                 *         ***                *                          "<<endl;
-        gotoxy(30,28);
-        cout<<"                                            *                                            "<<endl;
-        color(7);
-        gotoxy(30,29);
-        cout<<"-----------------------------------------------------------------------------------------"<<endl;
-        color(3);
-        gotoxy(79, 17);
-        cout << "                       " << wall << endl;
-        gotoxy(50, 17);
-        cout << wall << "  Seleccione una opcion:   ";cin >> opcion;
+        gotoxy(50,15);
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
+        gotoxy(50,16);
+        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
+        gotoxy(50,17);
+        cout << wall << "                                                   " << wall << endl;
+        gotoxy(50,18); cout << wall; gotoxy(102,18); cout << wall << endl;
+        gotoxy(50,19); cout << wall; gotoxy(102,19); cout << wall << endl;
+        gotoxy(50,20); cout << wall; gotoxy(102,20); cout << wall << endl;
+        gotoxy(50,21); cout << wall; gotoxy(102,21); cout << wall << endl;
+        gotoxy(50,22); cout << wall; gotoxy(102,22); cout << wall << endl;
+        gotoxy(50,23); cout << wall; gotoxy(102,23); cout << wall << endl;
+        gotoxy(50,24);
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
         
-
-        switch (opcion) {
-        case 1:
-            buscarPaciente();
-            system("pause");
-            break;
-
-        case 2:
-            crearPaciente();
-            system("pause");
-            break;
-        case 3:
-            listaPacientes();
-            system("pause");
-            break;
-
-        case 4:
-            system("cls");
-            gotoxy(50, 10);
-            color(3);
-            cout << "Saliendo...";
-            break;
-        default:
-            cout << "Opcion invalida. Intentalo nuevamente." << endl;
+        //Hacer un menu de tres opciones manejado con las flechas direccionales, las opciones son del vector menuInicio
+        for (int i = 0; i < num; ++i) {
+            color(7);
+            if (i == opcion - 1) {
+                color(3);
+                gotoxy(65, 19 + i);
+                cout << arrow;
+                color(3);
+                gotoxy(67, 19 + i);
+                cout << menuPaciente[i] << endl;
+                color(7);
+            } else {
+                gotoxy(57, 19 + i);
+                cout << "   " << menuPaciente[i] << endl;
+            }
         }
-        cout << endl;
-    } while (opcion != 4);
+        char input = _getch();
+        switch(input) {
+            case 72: // Flecha arriba
+                opcion = (opcion == 1) ? num : opcion - 1;
+                break;
+            case 80: // Flecha abajo
+                opcion = (opcion == num) ? 1 : opcion + 1;
+                break;
+            case 13: // Tecla Enter
+                cin.ignore(); // Limpia el búfer después de usar cin
+                switch(opcion) {
+                    case 1:
+                        buscarPaciente();
+                        break;
+                    case 2:
+                        crearPaciente();
+                        break;
+                    case 3:
+                        listaPacientes();
+                        break;
+                    case 4:
+                        cout << "Salir" << endl;
+                        repeat = false;
+                        break;
+                }
+                break;
+        }
+    } while(repeat);
 }
 
 void login() {
 control:
   cin.ignore();
   system("cls");
-  color(10);
-        cout<<"                                                                                                            #############"<<endl;
-        cout<<"                                                                          ###############                ###################"<<endl;
-        cout<<"                                                                      #######################          #####              ####"<<endl;
-        cout<<"                                                                     ######              ######       ####                 #####"<<endl;
-        cout<<"                                                                    ####    ####            ####     ####                    ####"<<endl;
-        cout<<"                                                                   ####   ######             ####   ####              #####  ####"<<endl;
-        cout<<"                                                                  ####    #####               ###  ####              #######  ####"<<endl;
-        cout<<"                                                                  ####                       ##########               #####   ####"<<endl;
-        cout<<"                                                                   ####                      ####..####                      ####"<<endl;
-        cout<<"                                                                    ####                   #####....####                    #####"<<endl;
-        cout<<"                                                                     ######              ######.....#####                  #####"<<endl;
-        cout<<"                                                                       ##########    ########........#####               ####"<<endl;
-        cout<<"                                                                       ###################.............######         ##########"<<endl;
-        cout<<"                                                                    ######......#####....................#################..######"<<endl;
-        cout<<"                                                                 ######.......................................########........#####"<<endl;
-        cout<<"                                                               ######......................####.....#####.......................#####"<<endl;
-        cout<<"                                                             ######........................####.....#####.........................####"<<endl;
-        cout<<"                                                            #####....................................................#########.....####"<<endl;
-        cout<<"                                                           #####...........#############....................####################....####"<<endl;
-        cout<<"                                                           ####.........####################............############................####"<<endl;
-        cout<<"                                                            ####.......................#######.......########......................####"<<endl;
-        cout<<"                                                             ####..........................######.#######.......................#####"<<endl;
-        cout<<"                                                               #####...........................#######......................######"<<endl;
-        cout<<"                                                                  ######................................................#######   ########"<<endl;
-        cout<<"                                                             ####     #######......................................########### ##############"<<endl;
-        cout<<"                                                          ###########################.......................############:::#######........####"<<endl;
-        cout<<"                                                        ####.......#####:::::::####################################::::::::::#####........####"<<endl;
-        cout<<"                                                        ###.......####:::::::::::::::########################::::::::::::::::::####.......####"<<endl;
-        cout<<"                                                        ####.....####:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::####......###"<<endl;
-        cout<<"                                                         ###....####::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::####.....####"<<endl;
-        cout<<"                                                          ###...###:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::###.....####"<<endl;
-        cout<<"                                                          ####..####:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::####....####"<<endl;
-        cout<<"                                                            #########:::::::::::::::::::::::::::::::::::::::::::::::::::::::::#####...####"<<endl;
-        cout<<"                                                            ##########::::::::::::::::::::::::::::::::::::::::::::::::::::::############"<<endl;
-        cout<<"                                                           ####.....####:::::::::::::::::::::::::::::::::::::::::::::::::#####.....######"<<endl;
-        cout<<"                                                         ####.........######::::::::::::::::::::::::::::::::::::::::########..........#####"<<endl;
-        cout<<"                                                        ####...####......#########:::::::::::::::::::::::::::############...............####"<<endl;
-        cout<<"                                                       ####.########...####..####################################   ####..#####...##########"<<endl;
-        cout<<"                                                       ########  ###############       ###################          ###.############# #####"<<endl;
-        cout<<"                                                                   #####  #####                                      ######    #####"<<endl;
-  gotoxy(10, 1);
-  color(5);
+  gotoxy(40, 5);
+  color(3);
   cout << "Username: ";
   getline(cin, currentUser.username);
-  gotoxy(10, 2);
-  color(5);
+  gotoxy(40, 6);
+  color(3);
   cout << "Password: ";
   getline(cin, currentUser.password);
 
   if(validateUser(currentUser)) {
-    opcionPaciente();
+    opcionPaciente(menuPaciente);
   }else {
     gotoxy(40, 7);
     color(4);
@@ -817,61 +654,47 @@ void mainMenu(const vector<string> menuOptions, const Paciente paciente, User cu
         color(6);
         cout << "User: " << currentUser.username << endl;
         color(3);
-        gotoxy(50,2);
-        cout << "*****************************************************" << endl;
-        gotoxy(50,3);
+        gotoxy(50, 2);
+        cout << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << endl;
+        gotoxy(50, 3);
+        cout << "*                                                   *" << endl;
+        gotoxy(50, 4);
         cout << "*              @..@      * *      @..@              *" << endl;
-        gotoxy(50,4);
-        cout << "*             (-__-)    *****    (-__-)             *" << endl;
         gotoxy(50,5);
-        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
+        cout << "*             (-__-)    *****    (-__-)             *" << endl;
         gotoxy(50,6);
-        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
+        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
         gotoxy(50,7);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
         gotoxy(50,8);
-        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
+        cout << "*                                                   *" << endl;
         gotoxy(50,9);
-        cout << "*                                                   *" << endl; 
+        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
         gotoxy(50,10);
-        cout << "*  RUC: 20131257750                                 *" << endl; 
+        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
         gotoxy(50,11);
-        cout << "*  SEDE: San Borja - Lima                           *" << endl; 
+        cout << "*                                                   *" << endl; 
         gotoxy(50,12);
-        cout << "*****************************************************" << endl;
-        color(7);
-        gotoxy(30,21);
-        cout<<"-----------------------------------------------------------------------------------------"<<endl;
-        color(4);
-        gotoxy(30,22);
-        cout<<"                                          *   *                                          "<<endl;
-        gotoxy(30,23);
-        cout<<"           *                             *** ***          *                    *         "<<endl;
-        gotoxy(30,24);
-        cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-        gotoxy(30,25);
-        cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-        gotoxy(30,26);
-        cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-        gotoxy(30,27);
-        cout<<"               *                 *         ***                *                          "<<endl;
-        gotoxy(30,28);
-        cout<<"                                            *                                            "<<endl;
-        color(7);
-        gotoxy(30,29);
-        cout<<"-----------------------------------------------------------------------------------------"<<endl;
+        cout << "*  RUC: 20131257750                                 *" << endl; 
+        gotoxy(50,13);
+        cout << "*  SEDE: San Borja - Lima                           *" << endl;
+        gotoxy(50,14);
+        cout << "*                                                   *" << endl;  
+        gotoxy(50,15);
+        cout << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << endl;
 
         for (int i = 0; i < numOptions; ++i) {
+            color(7);
             if (i == opt - 1) {
-                color(2);
-                gotoxy(55, 13 + i);
+                color(3);
+                gotoxy(55, 17 + i);
                 cout << arrow;
-                color(2);
-                gotoxy(57, 13 + i);
+                color(3);
+                gotoxy(57, 17 + i);
                 cout << menuOptions[i] << endl;
                 color(7);
             } else {
-                gotoxy(57, 13 + i);
+                gotoxy(57, 17 + i);
                 cout << "   " << menuOptions[i] << endl;
             }
         }
@@ -922,124 +745,49 @@ void mainMenu(const vector<string> menuOptions, const Paciente paciente, User cu
 
 void informacionPaciente(Paciente paciente) {
     system("cls");
-    color(3);
-    gotoxy(50,2);
-    cout << "*****************************************************" << endl;
-    gotoxy(50,3);
-    cout << "*              @..@      * *      @..@              *" << endl;
-    gotoxy(50,4);
-    cout << "*             (-__-)    *****    (-__-)             *" << endl;
-    gotoxy(50,5);
-    cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
-    gotoxy(50,6);
-    cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
-    gotoxy(50,7);
-    cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
-    gotoxy(50,8);
-    cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
-    gotoxy(50,9);
-    cout << "*                                                   *" << endl; 
-    gotoxy(50,10);
-    cout << "*  RUC: 20131257750                                 *" << endl; 
-    gotoxy(50,11);
-    cout << "*  SEDE: San Borja - Lima                           *" << endl; 
-    gotoxy(50,12);
-    cout << "*****************************************************" << endl;
-    color(7);
-    gotoxy(30,21);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
-    color(4);
-    gotoxy(30,22);
-    cout<<"                                          *   *                                          "<<endl;
-    gotoxy(30,23);
-    cout<<"           *                             *** ***          *                    *         "<<endl;
-    gotoxy(30,24);
-    cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-    gotoxy(30,25);
-    cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-    gotoxy(30,26);
-    cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-    gotoxy(30,27);
-    cout<<"               *                 *         ***                *                          "<<endl;
-    gotoxy(30,28);
-    cout<<"                                            *                                            "<<endl;
-    color(7);
-    gotoxy(30,29);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
-    color(15);
-    gotoxy(50,14);
     cout << "ID: " << paciente.id << endl;
-    gotoxy(50,15);
     cout << "Nombre: " << paciente.nombre << endl;
-    gotoxy(50,16);
     cout << "Apellido: " << paciente.apellido << endl;
-    gotoxy(50,17);
     cout << "Edad: " << paciente.edad << endl;
-    gotoxy(50,18);
     cout << "Telefono: " << paciente.telefono << endl;
-    gotoxy(50,19);
     cout << "DNI: " << paciente.dni << endl;
     system("pause");
 }
 void crearCita(Paciente paciente) {
     system("cls");
-    gotoxy(50, 5);
+    gotoxy(50, 2);
     color(3);
     cout << "*****************************************************" << endl;
-    gotoxy(50, 15);
-    color(3);
-    cout << "*****************************************************" << endl;
-    color(7);
-    gotoxy(30,21);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
-    color(4);
-    gotoxy(30,22);
-    cout<<"                                          *   *                                          "<<endl;
-    gotoxy(30,23);
-    cout<<"           *                             *** ***          *                    *         "<<endl;
-    gotoxy(30,24);
-    cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-    gotoxy(30,25);
-    cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-    gotoxy(30,26);
-    cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-    gotoxy(30,27);
-    cout<<"               *                 *         ***                *                          "<<endl;
-    gotoxy(30,28);
-    cout<<"                                            *                                            "<<endl;
-    color(7);
-    gotoxy(30,29);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
     cita.paciente.nombre = paciente.nombre;
     cita.paciente.apellido = paciente.apellido;
     cita.paciente.edad = paciente.edad;
     cita.paciente.dni = paciente.dni;
     cita.paciente.telefono = paciente.telefono;
 
-    gotoxy(50, 7);
+    gotoxy(50, 3);
     color(7);
     cout << "El paciente cuenta con SIS activo? (si=1/no=0) ";
     cin >> cita.paciente.SIS;
     cin.ignore();
 
-    gotoxy(50, 8);
+    gotoxy(50, 4);
     color(7);
     cout << "Motivo de consulta: ";
     getline(cin, cita.descripcion);
 
-    gotoxy(50, 9);
+    gotoxy(50, 5);
     color(7);
     cout << "Asigne un ID a la cita: ";
     cin >> cita.id;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpia el búfer después de usar cin
 
-    gotoxy(50,10);
+    gotoxy(50,7);
     color(7);
     cout << "Mostrando seleccion de especialista, medico y horarios..." << endl;
     system("pause");
 
     system("cls");
-    eleccionEspecialista(especialidades);
+    eleccionMedicos(medicos);
 }
 
 void mostrarCita(int id){
@@ -1053,7 +801,7 @@ void mostrarCita(int id){
       cout << "TICKET DE CITA\n";
       color(3);
       gotoxy(40, 4);
-      cout << "---------------------------------------------------------------------"<< endl;
+      cout << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << endl;
       gotoxy(40, 5);
       cout << "                                                                     " << endl;
       gotoxy(40, 6);
@@ -1077,7 +825,7 @@ void mostrarCita(int id){
       gotoxy(47, 15);
       cout << "Telefono: 123456789\n";
       gotoxy(40, 16);
-      cout << "---------------------------------------------------------------------"<< endl;
+      cout << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << endl;
       gotoxy(47, 17);
       color(7);
       cout << "Hora programada: " << citas[i].horariosMedicos.horarios << endl;
@@ -1121,28 +869,7 @@ void mostrarCita(int id){
 void buscarCita(){
   system("cls");
   int id;
-  color(7);
-  gotoxy(30,21);
-  cout<<"-----------------------------------------------------------------------------------------"<<endl;
-  color(4);
-  gotoxy(30,22);
-  cout<<"                                          *   *                                          "<<endl;
-  gotoxy(30,23);
-  cout<<"           *                             *** ***          *                    *         "<<endl;
-  gotoxy(30,24);
-  cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-  gotoxy(30,25);
-  cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-  gotoxy(30,26);
-  cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-  gotoxy(30,27);
-  cout<<"               *                 *         ***                *                          "<<endl;
-  gotoxy(30,28);
-  cout<<"                                            *                                            "<<endl;
-  color(7);
-  gotoxy(30,29);
-  cout<<"-----------------------------------------------------------------------------------------"<<endl;
-  gotoxy(45, 11);
+  gotoxy(45, 15);
   cout << "Ingrese el ID de la cita a buscar";
   gotoxy(whereX(), whereY());
   color(3);
@@ -1156,28 +883,7 @@ void buscarCita(){
 void eliminarCita() {
     system("cls");
     int id;
-    color(7);
-    gotoxy(30,21);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
-    color(4);
-    gotoxy(30,22);
-    cout<<"                                          *   *                                          "<<endl;
-    gotoxy(30,23);
-    cout<<"           *                             *** ***          *                    *         "<<endl;
-    gotoxy(30,24);
-    cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-    gotoxy(30,25);
-    cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-    gotoxy(30,26);
-    cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-    gotoxy(30,27);
-    cout<<"               *                 *         ***                *                          "<<endl;
-    gotoxy(30,28);
-    cout<<"                                            *                                            "<<endl;
-    color(7);
-    gotoxy(30,29);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
-    gotoxy(45, 10);
+    gotoxy(45, 15);
     cout << "Ingrese el ID de la cita a eliminar: ";
     gotoxy(whereX(), whereY());
     cout << "=> ";
@@ -1189,15 +895,11 @@ void eliminarCita() {
 void eliminar(int id) {
     for (auto it = citas.begin(); it != citas.end(); ++it) {
         if (it->id == id) {
-            citas.erase(it); 
-            color(2);
-            gotoxy(45,15); 
+            citas.erase(it);  
             cout << "Cita con ID " << id << " eliminada.\n";
             return; 
         }
     }
-    color(4);
-    gotoxy(45,15);
     cout << "Cita con ID " << id << " no encontrada.\n";
     system("pause");
 }
@@ -1239,34 +941,9 @@ string getFechaActualSinFormato() {
 }
 
 void imprimirCita(){
-  system("cls");
   string txtFecha = getFechaActualSinFormato();
   string txtPath = "", txtNombrePaciente = "";
-
   int id;
-  color(7);
-  gotoxy(30,21);
-  cout<<"-----------------------------------------------------------------------------------------"<<endl;
-  color(4);
-  gotoxy(30,22);
-  cout<<"                                          *   *                                          "<<endl;
-  gotoxy(30,23);
-  cout<<"           *                             *** ***          *                    *         "<<endl;
-  gotoxy(30,24);
-  cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-  gotoxy(30,25);
-  cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-  gotoxy(30,26);
-  cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-  gotoxy(30,27);
-  cout<<"               *                 *         ***                *                          "<<endl;
-  gotoxy(30,28);
-  cout<<"                                            *                                            "<<endl;
-  color(7);
-  gotoxy(30,29);
-  cout<<"-----------------------------------------------------------------------------------------"<<endl;
-  color(13);
-  gotoxy(40,10);
   cout << "Ingrese el ID de la cita a imprimir: ";
   cin >> id;
 
@@ -1281,7 +958,7 @@ void imprimirCita(){
       archivo << "TICKET DE CITA\n";
       color(3);
       gotoxy(40, 4);
-      archivo << "---------------------------------------------------------------------"<< endl;
+      archivo << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << endl;
       gotoxy(47, 5);
       archivo << "Centro de salud Colita de Rana\n";
       gotoxy(47, 6);
@@ -1291,7 +968,7 @@ void imprimirCita(){
       gotoxy(47, 8);
       archivo<< "Telefono: 123456789\n";
       gotoxy(40, 9);
-      archivo<< "---------------------------------------------------------------------"<< endl;
+      archivo << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << endl;
       gotoxy(47, 10);
       color(7);
       archivo<< "Hora programada: " << citas[i].horariosMedicos.horarios<< endl;
@@ -1311,7 +988,7 @@ void imprimirCita(){
       cout << "Cita impresa" << endl;
     }
   }
-  system("pause"); 
+  system("pause");
 }
 
 void eleccionEspecialista(vector<string>especialidades){
@@ -1320,47 +997,45 @@ void eleccionEspecialista(vector<string>especialidades){
   const int numOptions =especialidades.size();
   
   do {
-        system("cls");
-        gotoxy(50, 2);
         color(3);
-        cout << "*****************************************************" << endl;
-        gotoxy(50, 3);
-        cout << "*                                                   *" << endl;
+        system("cls");   
+        gotoxy(50,2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50,3);
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50, 4);
-        cout << "*              @..@      * *      @..@              *" << endl;
+        cout << wall << "              @..@      * *      @..@              " << wall << endl;
         gotoxy(50,5);
-        cout << "*             (-__-)    *****    (-__-)             *" << endl;
+        cout << wall << "             (-__-)    *****    (-__-)             " << wall << endl;
         gotoxy(50,6);
-        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
+        cout << wall << "            ( >__< )    ***    ( >__< )            " << wall << endl;
         gotoxy(50,7);
-        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
+        cout << wall << "            ^^ ~~ ^^     *     ^^ ~~ ^^            " << wall << endl;
         gotoxy(50,8);
-        cout << "*                                                   *" << endl;
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,9);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
         gotoxy(50,10);
-        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
+        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
         gotoxy(50,11);
-        cout << "*                                                   *" << endl; 
+        cout << wall << "             Selecciona la especialidad            " << wall << endl;
         gotoxy(50,12);
-        cout << "*              Seleccione especialista              *" << endl; 
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,13);
-        cout << "*                                                   *" << endl; 
-        gotoxy(50,14);
-        cout << "*****************************************************" << endl;
-        color(7);
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
 
         for (int i = 0; i < numOptions; ++i) {
+            color(7);
             if (i == opt - 1) {
-                color(2);
-                gotoxy(55, 16 + i);
+                color(3);
+                gotoxy(55, 15 + i);
                 cout << arrow;
-                color(2);
-                gotoxy(57, 16 + i);
+                color(3);
+                gotoxy(57, 15 + i);
                 cout << especialidades[i] << endl;
                 color(7);
             } else {
-                gotoxy(57, 16 + i);
+                gotoxy(57, 15 + i);
                 cout << "   " << especialidades[i] << endl;
             }
         }
@@ -1376,7 +1051,6 @@ void eleccionEspecialista(vector<string>especialidades){
                 break;
             case 13: // Tecla Enter
                 cita.horariosMedicos.especialista = especialidades[opt - 1];
-                eleccionMedicos(medicos);
                 repeat = false;
                 break;
         }
@@ -1390,47 +1064,45 @@ void eleccionMedicos (vector<string> medicos) {
     const int numOptions = medicos.size();
     HorariosMedicos horariosMedicos;
     do {
-        system("cls");
-        gotoxy(50, 2);
         color(3);
-        cout << "*****************************************************" << endl;
-        gotoxy(50, 3);
-        cout << "*                                                   *" << endl;
+        system("cls");   
+        gotoxy(50,2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50,3);
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50, 4);
-        cout << "*              @..@      * *      @..@              *" << endl;
+        cout << wall << "              @..@      * *      @..@              " << wall << endl;
         gotoxy(50,5);
-        cout << "*             (-__-)    *****    (-__-)             *" << endl;
+        cout << wall << "             (-__-)    *****    (-__-)             " << wall << endl;
         gotoxy(50,6);
-        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
+        cout << wall << "            ( >__< )    ***    ( >__< )            " << wall << endl;
         gotoxy(50,7);
-        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
+        cout << wall << "            ^^ ~~ ^^     *     ^^ ~~ ^^            " << wall << endl;
         gotoxy(50,8);
-        cout << "*                                                   *" << endl;
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,9);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
         gotoxy(50,10);
-        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
-        gotoxy(50, 11);
-        cout << "*                                                   *" << endl; 
-        gotoxy(50, 12);
-        cout << "*              Seleccione un medico                 *" << endl; 
-        gotoxy(50, 13);
-        cout << "*                                                   *" << endl; 
-        gotoxy(50, 14);
-        cout << "*****************************************************" << endl;
-        color(7);
+        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
+        gotoxy(50,11);
+        cout << wall << "                Seleccione el medico               " << wall << endl;
+        gotoxy(50,12);
+        cout << wall << "                                                   " << wall << endl;
+        gotoxy(50,13);
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
 
         for (int i = 0; i < numOptions; ++i) {
+            color(7);
             if (i == opt - 1) {
-                color(2);
-                gotoxy(55, 16 + i);
+                color(3);
+                gotoxy(55, 15 + i);
                 cout << arrow;
-                color(2);
-                gotoxy(57, 16 + i);
+                color(3);
+                gotoxy(57, 15 + i);
                 cout << medicos[i] << endl;
                 color(7);
             } else {
-                gotoxy(57, 16 + i);
+                gotoxy(57, 15 + i);
                 cout << "   " << medicos[i] << endl;
             }
         }
@@ -1459,47 +1131,45 @@ void eleccionFecha (vector<string> fecha) {
     const int numOptions = fecha.size();
     
     do {
-        system("cls");
         color(3);
-        gotoxy(50, 2);
-        cout << "*****************************************************" << endl;
-        gotoxy(50, 3);
-        cout << "*                                                   *" << endl;
+        system("cls");   
+        gotoxy(50,2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50,3);
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50, 4);
-        cout << "*              @..@      * *      @..@              *" << endl;
+        cout << wall << "              @..@      * *      @..@              " << wall << endl;
         gotoxy(50,5);
-        cout << "*             (-__-)    *****    (-__-)             *" << endl;
+        cout << wall << "             (-__-)    *****    (-__-)             " << wall << endl;
         gotoxy(50,6);
-        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
+        cout << wall << "            ( >__< )    ***    ( >__< )            " << wall << endl;
         gotoxy(50,7);
-        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
+        cout << wall << "            ^^ ~~ ^^     *     ^^ ~~ ^^            " << wall << endl;
         gotoxy(50,8);
-        cout << "*                                                   *" << endl;
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,9);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
         gotoxy(50,10);
-        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
+        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
         gotoxy(50,11);
-        cout << "*                                                   *" << endl;  
+        cout << wall << "                Seleccione la fecha                " << wall << endl;
         gotoxy(50,12);
-        cout << "*               Seleccione la fecha                 *" << endl; 
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,13);
-        cout << "*                                                   *" << endl; 
-        gotoxy(50,14);
-        cout << "*****************************************************" << endl;
-        color(7);
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
 
         for (int i = 0; i < numOptions; ++i) {
+            color(7);
             if (i == opt - 1) {
-                color(2);
-                gotoxy(55, 16 + i);
+                color(3);
+                gotoxy(55, 15 + i);
                 cout << arrow;
-                color(2);
-                gotoxy(57, 16 + i);
+                color(3);
+                gotoxy(57, 15 + i);
                 cout << fecha[i] << endl;
                 color(7);
             } else {
-                gotoxy(57, 16 + i);
+                gotoxy(57, 15 + i);
                 cout << "   " << fecha[i] << endl;
             }
         }
@@ -1528,47 +1198,45 @@ void eleccionHorarios (vector<string> horarios) {
     const int numOptions = horarios.size();
     
     do {
-        system("cls");
-        gotoxy(50, 2);
         color(3);
-        cout << "*****************************************************" << endl;
-        gotoxy(50, 3);
-        cout << "*                                                   *" << endl;
+        system("cls");   
+        gotoxy(50,2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50,3);
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50, 4);
-        cout << "*              @..@      * *      @..@              *" << endl;
+        cout << wall << "              @..@      * *      @..@              " << wall << endl;
         gotoxy(50,5);
-        cout << "*             (-__-)    *****    (-__-)             *" << endl;
+        cout << wall << "             (-__-)    *****    (-__-)             " << wall << endl;
         gotoxy(50,6);
-        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
+        cout << wall << "            ( >__< )    ***    ( >__< )            " << wall << endl;
         gotoxy(50,7);
-        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
+        cout << wall << "            ^^ ~~ ^^     *     ^^ ~~ ^^            " << wall << endl;
         gotoxy(50,8);
-        cout << "*                                                   *" << endl;
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,9);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
         gotoxy(50,10);
-        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
+        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
         gotoxy(50,11);
-        cout << "*                                                   *" << endl; 
+        cout << wall << "                Seleccione el horario              " << wall << endl;
         gotoxy(50,12);
-        cout << "*               Seleccione su horario               *" << endl; 
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,13);
-        cout << "*                                                   *" << endl; 
-        gotoxy(50,14);
-        cout << "*****************************************************" << endl;
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
         color(7);
 
         for (int i = 0; i < numOptions; ++i) {
             if (i == opt - 1) {
-                color(2);
-                gotoxy(55, 16 + i);
+                color(3);
+                gotoxy(55, 15 + i);
                 cout << arrow;
-                color(2);
-                gotoxy(57, 16 + i);
+                color(3);
+                gotoxy(57, 15 + i);
                 cout << horarios[i] << endl;
                 color(7);
             } else {
-                gotoxy(57, 16 + i);
+                gotoxy(57, 15 + i);
                 cout << "   " << horarios[i] << endl;
             }
         }
@@ -1584,6 +1252,7 @@ void eleccionHorarios (vector<string> horarios) {
                 break;
             case 13: // Tecla Enter
                 cita.horariosMedicos.horarios = horarios[opt - 1];
+                eleccionEspecialista(especialidades);
                 repeat = false;
                 break;
         }
@@ -1607,45 +1276,45 @@ void modificarMedicos (vector<string> medicos, int id) {
     for (int i = 0; i < citas.size(); ++i) {
       if (citas[i].id == id) {
         do {
-        system("cls");
-        gotoxy(50, 2);
-        cout << "*****************************************************" << endl;
-        gotoxy(50, 3);
-        cout << "*                                                   *" << endl;
+        color(3);
+        system("cls");   
+        gotoxy(50,2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50,3);
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50, 4);
-        cout << "*              @..@      * *      @..@              *" << endl;
+        cout << wall << "              @..@      * *      @..@              " << wall << endl;
         gotoxy(50,5);
-        cout << "*             (-__-)    *****    (-__-)             *" << endl;
+        cout << wall << "             (-__-)    *****    (-__-)             " << wall << endl;
         gotoxy(50,6);
-        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
+        cout << wall << "            ( >__< )    ***    ( >__< )            " << wall << endl;
         gotoxy(50,7);
-        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
+        cout << wall << "            ^^ ~~ ^^     *     ^^ ~~ ^^            " << wall << endl;
         gotoxy(50,8);
-        cout << "*                                                   *" << endl;
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,9);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
         gotoxy(50,10);
-        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
+        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
         gotoxy(50,11);
-        cout << "*                                                   *" << endl; 
+        cout << wall << "             Selecciona la especialidad            " << wall << endl;
         gotoxy(50,12);
-        cout << "*              Seleccione el doctor                 *" << endl; 
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,13);
-        cout << "*                                                   *" << endl; 
-        gotoxy(50,14);
-        cout << "*****************************************************" << endl;
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
 
           for (int i = 0; i < numOptions; ++i) {
+            color(7);
             if (i == opt - 1) {
-                color(2);
-                gotoxy(55, 16 + i);
+                color(3);
+                gotoxy(55, 15 + i);
                 cout << arrow;
-                color(2);
-                gotoxy(57, 16 + i);
+                color(3);
+                gotoxy(57, 15 + i);
                 cout << medicos[i] << endl;
                 color(7);
             } else {
-                gotoxy(57, 16 + i);
+                gotoxy(57, 15 + i);
                 cout << "   " << medicos[i] << endl;
             }
           }
@@ -1660,37 +1329,12 @@ void modificarMedicos (vector<string> medicos, int id) {
                 opt = (opt == numOptions) ? 1 : opt + 1;
                 break;
               case 13: // Tecla Enter
-                switch(opt) {
-                    case 1:
-                        citas[i].horariosMedicos.medico = medicos[0];
-                        modificarFecha (fecha, id);
-                        repeat = false;
-                        break;
-                    case 2:
-                        citas[i].horariosMedicos.medico = medicos[1];
-                        modificarFecha (fecha, id);
-                        repeat = false;
-                        break;
-                    case 3:
-                        citas[i].horariosMedicos.medico = medicos[2];
-                        modificarFecha (fecha, id);
-                        repeat = false;
-                        break;
-                    case 4:
-                        citas[i].horariosMedicos.medico = medicos[3];
-                        modificarFecha (fecha, id);
-                        repeat = false;
-                        break;
-                    case 5:
-                        citas[i].horariosMedicos.medico = medicos[4];
-                        modificarFecha (fecha, id);
-                        repeat = false;
-                        break;
-                    case 6:
-                        cout << "Salir" << endl;
-                        repeat = false;
-                        break;
-            } break;
+                if (opt >= 1 && opt <= numOptions) {
+                  citas[i].horariosMedicos.medico = medicos[opt - 1];
+                  modificarFecha (fecha,id);
+                  }
+                  repeat = false;
+                  break;
           }
         } while (repeat);
       }
@@ -1707,45 +1351,45 @@ void modificarFecha (vector<string> fecha, int id) {
     for (int i = 0; i < citas.size(); ++i) {
       if (citas[i].id == id) {
         do {
-        system("cls");
-        gotoxy(50, 2);
-        cout << "*****************************************************" << endl;
-        gotoxy(50, 3);
-        cout << "*                                                   *" << endl;
+        color(3);
+        system("cls");   
+        gotoxy(50,2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50,3);
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50, 4);
-        cout << "*              @..@      * *      @..@              *" << endl;
+        cout << wall << "              @..@      * *      @..@              " << wall << endl;
         gotoxy(50,5);
-        cout << "*             (-__-)    *****    (-__-)             *" << endl;
+        cout << wall << "             (-__-)    *****    (-__-)             " << wall << endl;
         gotoxy(50,6);
-        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
+        cout << wall << "            ( >__< )    ***    ( >__< )            " << wall << endl;
         gotoxy(50,7);
-        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
+        cout << wall << "            ^^ ~~ ^^     *     ^^ ~~ ^^            " << wall << endl;
         gotoxy(50,8);
-        cout << "*                                                   *" << endl;
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,9);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
         gotoxy(50,10);
-        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
+        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
         gotoxy(50,11);
-        cout << "*                                                   *" << endl; 
+        cout << wall << "                Seleccione la fecha                " << wall << endl;
         gotoxy(50,12);
-        cout << "*              Seleccione la fecha                  *" << endl; 
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,13);
-        cout << "*                                                   *" << endl; 
-        gotoxy(50,14);
-        cout << "*****************************************************" << endl;
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
 
           for (int i = 0; i < numOptions; ++i) {
+            color(7);
             if (i == opt - 1) {
-                color(2);
-                gotoxy(55, 16 + i);
+                color(3);
+                gotoxy(55, 15 + i);
                 cout << arrow;
-                color(2);
-                gotoxy(57, 16 + i);
+                color(3);
+                gotoxy(57, 15 + i);
                 cout << fecha[i] << endl;
                 color(7);
             } else {
-                gotoxy(57, 16 + i);
+                gotoxy(57, 15 + i);
                 cout << "   " << fecha[i] << endl;
             }
           }
@@ -1760,37 +1404,12 @@ void modificarFecha (vector<string> fecha, int id) {
                 opt = (opt == numOptions) ? 1 : opt + 1;
                 break;
               case 13: // Tecla Enter
-                switch(opt) {
-                    case 1:
-                        citas[i].horariosMedicos.fecha = fecha[0];
-                        modificarHorarios (horarios, id);
-                        repeat = false;
-                        break;
-                    case 2:
-                        citas[i].horariosMedicos.fecha = fecha[1];
-                        modificarHorarios (horarios, id);
-                        repeat = false;
-                        break;
-                    case 3:
-                        citas[i].horariosMedicos.fecha = fecha[2];
-                        modificarHorarios (horarios, id);
-                        repeat = false;
-                        break;
-                    case 4:
-                        citas[i].horariosMedicos.fecha = fecha[3];
-                        modificarHorarios (horarios, id);
-                        repeat = false;
-                        break;
-                    case 5:
-                        citas[i].horariosMedicos.fecha = fecha[4];
-                        modificarHorarios (horarios, id);
-                        repeat = false;
-                        break;
-                    case 6:
-                        cout << "Salir" << endl;
-                        repeat = false;
-                        break;
-            } break;
+                if (opt >= 1 && opt <= numOptions) {
+                  citas[i].horariosMedicos.fecha = fecha[opt - 1];
+                  modificarHorarios(horarios,id);
+                  }
+                  repeat = false;
+                  break;
           }
         } while (repeat);
       }
@@ -1805,35 +1424,35 @@ void modificarEspecialista (vector<string> especialidades, int id) {
     for (int i = 0; i < citas.size(); ++i) {
       if (citas[i].id == id) {
         do {
-          system("cls");
-          gotoxy(50, 2);
-          cout << "*****************************************************" << endl;
-          gotoxy(50, 3);
-          cout << "*                                                   *" << endl;
-          gotoxy(50, 4);
-          cout << "*              @..@      * *      @..@              *" << endl;
-          gotoxy(50,5);
-          cout << "*             (-__-)    *****    (-__-)             *" << endl;
-          gotoxy(50,6);
-          cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
-          gotoxy(50,7);
-          cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
-          gotoxy(50,8);
-          cout << "*                                                   *" << endl;
-          gotoxy(50,9);
-          cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
-          gotoxy(50,10);
-          cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
-          gotoxy(50,11);
-          cout << "*                                                   *" << endl; 
-          gotoxy(50,12);
-          cout << "*              Seleccione especialista              *" << endl; 
-          gotoxy(50,13);
-          cout << "*                                                   *" << endl; 
-          gotoxy(50,14);
-          cout << "*****************************************************" << endl;
+          color(3);
+        system("cls");   
+        gotoxy(50,2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50,3);
+        cout << wall << "                                                   " << wall << endl;
+        gotoxy(50, 4);
+        cout << wall << "              @..@      * *      @..@              " << wall << endl;
+        gotoxy(50,5);
+        cout << wall << "             (-__-)    *****    (-__-)             " << wall << endl;
+        gotoxy(50,6);
+        cout << wall << "            ( >__< )    ***    ( >__< )            " << wall << endl;
+        gotoxy(50,7);
+        cout << wall << "            ^^ ~~ ^^     *     ^^ ~~ ^^            " << wall << endl;
+        gotoxy(50,8);
+        cout << wall << "                                                   " << wall << endl;
+        gotoxy(50,9);
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
+        gotoxy(50,10);
+        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
+        gotoxy(50,11);
+        cout << wall << "            Seleccione la especialidad             " << wall << endl;
+        gotoxy(50,12);
+        cout << wall << "                                                   " << wall << endl;
+        gotoxy(50,13);
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
 
           for (int i = 0; i < numOptions; ++i) {
+            color(7);
             if (i == opt - 1) {
                 color(2);
                 gotoxy(55, 16 + i);
@@ -1882,40 +1501,40 @@ void modificarHorarios (vector<string> horarios, int id) {
     for (int i = 0; i < citas.size(); ++i) {
       if (citas[i].id == id) {
         do {
-        system("cls");
-        gotoxy(50, 2);
-        cout << "*****************************************************" << endl;
-        gotoxy(50, 3);
-        cout << "*                                                   *" << endl;
+        color(3);
+        system("cls");   
+        gotoxy(50,2);
+        cout << topLeftCorner << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << topRightCorner << endl;
+        gotoxy(50,3);
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50, 4);
-        cout << "*              @..@      * *      @..@              *" << endl;
+        cout << wall << "              @..@      * *      @..@              " << wall << endl;
         gotoxy(50,5);
-        cout << "*             (-__-)    *****    (-__-)             *" << endl;
+        cout << wall << "             (-__-)    *****    (-__-)             " << wall << endl;
         gotoxy(50,6);
-        cout << "*            ( >__< )    ***    ( >__< )            *" << endl;
+        cout << wall << "            ( >__< )    ***    ( >__< )            " << wall << endl;
         gotoxy(50,7);
-        cout << "*            ^^ ~~ ^^     *     ^^ ~~ ^^            *" << endl;
+        cout << wall << "            ^^ ~~ ^^     *     ^^ ~~ ^^            " << wall << endl;
         gotoxy(50,8);
-        cout << "*                                                   *" << endl;
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,9);
-        cout << "*     GESTION DE CITAS - CLINICA COLITA DE RANA     *" << endl;
+        cout << wall << "     GESTION DE CITAS - CLINICA COLITA DE RANA     " << wall << endl;
         gotoxy(50,10);
-        cout << "*      'Si no te sanas hoy, te sanaras manana'      *" << endl;
+        cout << wall << "      'Si no te sanas hoy, te sanaras manana'      " << wall << endl; 
         gotoxy(50,11);
-        cout << "*                                                   *" << endl; 
+        cout << wall << "                Seleccione el horario              " << wall << endl;
         gotoxy(50,12);
-        cout << "*              Seleccione el horario                *" << endl; 
+        cout << wall << "                                                   " << wall << endl;
         gotoxy(50,13);
-        cout << "*                                                   *" << endl; 
-        gotoxy(50,14);
-        cout << "*****************************************************" << endl;
+        cout << bottomLeftCorner<< f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << f << f << f <<f << f << f << f << f << f << bottomRightCorner << endl;
+        color(7);
 
           for (int i = 0; i < numOptions; ++i) {
             if (i == opt - 1) {
-                color(2);
+                color(3);
                 gotoxy(55, 16 + i);
                 cout << arrow;
-                color(2);
+                color(3);
                 gotoxy(57, 16 + i);
                 cout << horarios[i] << endl;
                 color(7);
@@ -1935,33 +1554,12 @@ void modificarHorarios (vector<string> horarios, int id) {
                 opt = (opt == numOptions) ? 1 : opt + 1;
                 break;
               case 13: // Tecla Enter
-                switch(opt) {
-                    case 1:
-                        citas[i].horariosMedicos.horarios = horarios[0];
-                        repeat = false;
-                        break;
-                    case 2:
-                        citas[i].horariosMedicos.horarios = horarios[1];
-                        repeat = false;
-                        break;
-                    case 3:
-                        citas[i].horariosMedicos.horarios = horarios[2];
-                        repeat = false;
-                        break;
-                    case 4:
-                        citas[i].horariosMedicos.horarios = horarios[3];
-                        repeat = false;
-                        break;
-                    case 5:
-                        citas[i].horariosMedicos.horarios = horarios[4];
-                        repeat = false;
-                        break;
-                    case 6:
-                        cout << "Salir" << endl;
-                        repeat = false;
-                        break;
-            } 
-          }
+                if (opt >= 1 && opt <= numOptions) {
+                  citas[i].horariosMedicos.horarios = horarios[opt - 1];
+                  }
+                  repeat = false;
+                  break;
+          } 
         } while (repeat);
       }
     }
