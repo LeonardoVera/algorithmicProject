@@ -127,6 +127,7 @@ void modificarCita() {
 
       while(repeat) {
         system("cls");
+        gotoxy(30,4);
         cout<<"-----------------------------------------------------------------------------------------"<<endl;
         color(4);
         gotoxy(30,22);
@@ -188,6 +189,7 @@ void modificarCita() {
             break;
           case 2:
             cout << "Ingrese el nuevo apellido del paciente: ";
+            cin.ignore();
             getline(cin, citas[i].paciente.apellido);
             break;
           case 3:
@@ -1237,31 +1239,32 @@ string getFechaActualSinFormato() {
 }
 
 void imprimirCita(){
+  system("cls");
   string txtFecha = getFechaActualSinFormato();
   string txtPath = "", txtNombrePaciente = "";
 
   int id;
-    color(7);
-    gotoxy(30,21);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
-    color(4);
-    gotoxy(30,22);
-    cout<<"                                          *   *                                          "<<endl;
-    gotoxy(30,23);
-    cout<<"           *                             *** ***          *                    *         "<<endl;
-    gotoxy(30,24);
-    cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
-    gotoxy(30,25);
-    cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
-    gotoxy(30,26);
-    cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
-    gotoxy(30,27);
-    cout<<"               *                 *         ***                *                          "<<endl;
-    gotoxy(30,28);
-    cout<<"                                            *                                            "<<endl;
-    color(7);
-    gotoxy(30,29);
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+  color(7);
+  gotoxy(30,21);
+  cout<<"-----------------------------------------------------------------------------------------"<<endl;
+  color(4);
+  gotoxy(30,22);
+  cout<<"                                          *   *                                          "<<endl;
+  gotoxy(30,23);
+  cout<<"           *                             *** ***          *                    *         "<<endl;
+  gotoxy(30,24);
+  cout<<"      *   * *     * *   *     *     *   *********    *   * *     * *     *    * *   *    "<<endl;
+  gotoxy(30,25);
+  cout<<"**** * ***   *   * * * * *** * *   * *** ******* ** * ***   *   * * * *** * **   * * ****"<<endl;
+  gotoxy(30,26);
+  cout<<"    *         * *     *     *   * *       *****    *         * *     *     *       *     "<<endl;
+  gotoxy(30,27);
+  cout<<"               *                 *         ***                *                          "<<endl;
+  gotoxy(30,28);
+  cout<<"                                            *                                            "<<endl;
+  color(7);
+  gotoxy(30,29);
+  cout<<"-----------------------------------------------------------------------------------------"<<endl;
   color(13);
   gotoxy(40,10);
   cout << "Ingrese el ID de la cita a imprimir: ";
