@@ -1306,9 +1306,9 @@ void imprimirCita(){
       archivo.close();
       color(10);
       cout << "Cita impresa" << endl;
-      system("pause"); 
     }
   }
+  system("pause"); 
 }
 
 void eleccionEspecialista(vector<string>especialidades){
